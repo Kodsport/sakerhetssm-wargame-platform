@@ -161,9 +161,9 @@
           </div>
         </div>
         <div class="p-3">
-          <div :class="{ wrong: warn }">
+          <div>
             <CTFFlagInput
-              class=""
+              :class="{ 'is-wrong': warn }"
               v-model="flag"
               @keypress.enter="submitFlag"
               :solved="props.chall.solved"
@@ -243,15 +243,6 @@ function goBack(event) {
 
 .author:last-child:after {
   content: none;
-}
-
-.wrong {
-  padding: 6px;
-  margin: -6px;
-  border-radius: 8px;
-  background-color: #cf5631;
-  border-color: #cf5631;
-  color: #ffffff;
 }
 
 .first-list {

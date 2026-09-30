@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <FlagInput :class="{ 'alert alert-danger': warn }" v-model="flag" @keypress.enter="submitFlag"
+                        <FlagInput :class="{ 'is-wrong': warn }" v-model="flag" @keypress.enter="submitFlag"
                             :solved="props.chall.solved" />
                     </div>
                 </div>

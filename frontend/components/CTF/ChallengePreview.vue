@@ -1,5 +1,5 @@
 <template>
-  <div class="card h-100 challenge-preview-bg" :class="getBackgroundClass()">
+  <div class="card h-100 challenge-card" :class="getBackgroundClass()">
     <div class="card-body pb-2">
       <h5 class="title-text">{{ props.chall.title }}</h5>
     </div>
@@ -35,14 +35,14 @@ const props = defineProps(["chall", "hideSolves"]);
 function getBackgroundClass() {
   // färger beroende på hur en chall e löst
   if (props.chall.solved) {
-    return "bg-success"; // ifall solvern är den som är inloggad
+    return "is-solved"; // ifall solvern är den som är inloggad
   }
 
   if (props.chall.solved_in_team) {
-    return "bg-warning"; // ifall nån i temeat har löst den men inte den som är inloggad
+    return "is-team-solved"; // ifall nån i temeat har löst den men inte den som är inloggad
   }
 
-  return "bg-info"; // ingen i laget har löst den/ du har inte löst den heller
+  return ""; // ingen i laget har löst den/ du har inte löst den heller
 }
 </script>
 <style>
@@ -55,27 +55,5 @@ function getBackgroundClass() {
 }
 .solve-text span {
   font-size: 0.9rem;
-}
-.challenge-preview-bg {
-  position: relative;
-  overflow: hidden;
-}
-.challenge-preview-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 675"><defs><filter id="blur1" x="-10%" y="-10%" width="120%" height="120%"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="167" result="effect1_foregroundBlur"/></filter></defs><rect width="900" height="675" fill="%23008eae"/><g filter="url(%23blur1)"><circle cx="633" cy="560" fill="%230cc2b9" r="371"/><circle cx="522" cy="283" fill="%23008eae" r="371"/><circle cx="523" cy="46" fill="%230cc2b9" r="371"/><circle cx="303" cy="84" fill="%230cc2b9" r="371"/><circle cx="250" cy="448" fill="%23008eae" r="371"/><circle cx="775" cy="58" fill="%230cc2b9" r="371"/></g></svg>');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.5;
-  pointer-events: none;
-}
-.card-body,
-.title-text,
-.score-text,
-.solve-text {
-  position: relative;
-  z-index: 1;
 }
 </style>

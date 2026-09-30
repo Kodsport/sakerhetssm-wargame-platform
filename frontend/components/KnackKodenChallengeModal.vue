@@ -55,14 +55,9 @@
 
                         </div>
                     </div>
-                    <div class="row mt-3" :class="{ 'alert alert-danger': warn }">
-                        <template v-if="!props.chall?.solved">
-
-                            <input v-if="auth.knackKodenPassword" type="text" class="form-control" placeholder="SSM{..."
-                                v-model="flagInput" @keypress.enter="submitFlag">
-                            <InputReplacer v-else text="Logga in för att skicka in flaggor!" />
-                        </template>
-                        <InputReplacer v-else text="Löst!" />
+                    <div class="mt-3">
+                        <KnackKodenFlagInput :class="{ 'is-wrong': warn }" v-model="flagInput"
+                            :solved="props.chall?.solved" @keypress.enter="submitFlag" />
                     </div>
                 </div>
             </div>

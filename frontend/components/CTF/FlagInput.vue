@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group">
+  <div class="form-group flag-input">
     <template v-if="props.solved">
       <InputReplacer text="Löst!" />
     </template>

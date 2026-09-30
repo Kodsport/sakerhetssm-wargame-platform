@@ -4,7 +4,7 @@
     <div class="d-flex flex-column flex-md-row ssm-row">
       <div
         v-for="person in people"
-        class="d-flex flex-column bg-dark m-2 p-3 rounded"
+        class="d-flex flex-column mc-panel m-2"
         style="max-width: 22.5rem"
       >
         <img class="mw-100 rounded" :src="person.url" alt="" />
@@ -16,7 +16,7 @@
 
     <div class="d-flex flex-column flex-md-row align-items-center ssm-row">
       <img class="ks-logo" src="~/assets/kodsport.png" alt="Kodsport Logga" />
-      <div>
+      <div class="mc-panel m-2">
         <h1 class="text-primary">Föreningen</h1>
         <p>
           <a href="https://www.kodsport.se/">Kodsport</a> är en ideell förening

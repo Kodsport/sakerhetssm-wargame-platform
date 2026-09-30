@@ -1,5 +1,5 @@
 <template>
-  <div class="border border-dark bg-dark rounded p-4 position-relative">
+  <div class="mc-panel position-relative">
     <div class="d-flex justify-content-between align-items-start">
       <h4>
         {{ props.chall.title }}
@@ -41,7 +41,7 @@
     <div class="py-3">
       <div class="d-none d-md-inline">
         <client-only>
-          <FlagInput :class="{ 'alert alert-danger': warn }" v-model="flag" @keypress.enter="submitFlag"
+          <FlagInput :class="{ 'is-wrong': warn }" v-model="flag" @keypress.enter="submitFlag"
               :solved="props.chall.solved" />
           <template #fallback>
             <InputReplacer text="Logga in för att skicka in flaggor" />

@@ -1,48 +1,692 @@
-$body-bg: #004454;
-$body-color: #ffffff;
+// Säkerhets-SM 2027: the poster turned into a Bootstrap theme. Panels are
+// Minecraft tooltips, type is Monocraft with Minecraft's text shadow, and the
+// accents are the logo's pink, green and cyan. Colours are sampled from the
+// print, see sakerhetssm-generated-graphics for how the graphics are made.
 
-$green: #33b86f;
-$red: #fc6500;
-$yellow: #ffab1c;
-$primary: $yellow;
-$dark: #002c36;
-$info: #008eae;
+// Monocraft (public/fonts, OFL) is declared in nuxt.config.ts next to its
+// preload, so the build doesn't rewrite the URL out from under the preload.
 
-$code-color: $yellow;
+// Poster palette
+$ssm-ink: #100010; // tooltip background
+$ssm-frame-top: #24005b; // top of the tooltip border, as it lands on the background
+$ssm-text: #f0f3eb;
+$ssm-muted: #aea6c6;
+$ssm-teal: #66e0d8;
+$ssm-redstone: #f4493b;
+$ssm-pink: #ea507c;
+$ssm-green: #75da91;
+$ssm-cyan: #53d8df;
+$ssm-lavender: #9d8fe0;
+$ssm-field: #1c1228; // the SSM{ A - B - C } boxes
+$ssm-field-border: #4a3a66;
+$ssm-gold: #ffaa00;
 
-$navbar-light-color: $yellow;
+$font-pixel: "Monocraft", ui-monospace, "Consolas", monospace;
+$font-code: "Consolas", "Menlo", "DejaVu Sans Mono", ui-monospace, monospace;
+
+// Bootstrap
+$body-bg: #150b26;
+$body-color: $ssm-text;
+$body-emphasis-color: #ffffff;
+$body-secondary-color: $ssm-muted;
+$body-secondary-bg: #1a1030;
+$body-tertiary-bg: $ssm-field;
+
+$primary: $ssm-teal;
+$secondary: #3a2d6b;
+$success: #2f8f5b;
+$info: #3b2d7a;
+$warning: #b3861a;
+$danger: $ssm-redstone;
+$light: $ssm-text;
+$dark: $ssm-ink;
+$component-active-bg: $ssm-teal;
+$component-active-color: $ssm-ink;
+$min-contrast-ratio: 3;
+
+$enable-rfs: false;
+$enable-shadows: false;
+$border-width: 2px;
+$border-color: $ssm-field-border;
+$border-radius: 0;
+$border-radius-sm: 0;
+$border-radius-lg: 0;
+$border-radius-xl: 0;
+$border-radius-xxl: 0;
+$border-radius-pill: 0;
+$focus-ring-width: 2px;
+$focus-ring-opacity: 0.6;
+
+// Monocraft's glyphs sit on a 9px grid, so 18px (and 27, 36...) stay crisp.
+$font-family-sans-serif: $font-pixel;
+$font-family-monospace: $font-code;
+$font-size-base: 1.125rem;
+$line-height-base: 1.5;
+$headings-font-family: $font-pixel;
+$headings-font-weight: 400;
+$headings-line-height: 1.25;
+$h1-font-size: 2.25rem;
+$h2-font-size: 1.6875rem;
+$h3-font-size: 1.6875rem;
+$h4-font-size: 1.125rem;
+$h5-font-size: 1.125rem;
+$h6-font-size: 1.125rem;
+
+$link-color: $ssm-teal;
+$link-hover-color: #ffffff;
+$code-color: $ssm-pink;
+$hr-color: $ssm-frame-top;
+$hr-opacity: 1;
+
+$navbar-light-color: $ssm-muted;
 $navbar-light-hover-color: #ffffff;
-$navbar-light-active-color: #ffffff;
-$dropdown-link-hover-bg: $dark;
+$navbar-light-active-color: $ssm-teal;
+$navbar-light-brand-color: #ffffff;
+$navbar-light-toggler-border-color: $ssm-field-border;
+$dropdown-link-hover-bg: rgba(#ffffff, 0.08);
 
-$link-color: #ffd07e;
-$link-color-dark: #c4a166;
+$input-bg: $ssm-field;
+$input-color: $ssm-text;
+$input-border-color: $ssm-field-border;
+$input-focus-border-color: #ffffff;
+$input-focus-box-shadow: none;
+$input-placeholder-color: rgba($ssm-muted, 0.55);
+$input-disabled-bg: #120a1d;
+$form-select-indicator-color: $ssm-text;
+$form-check-input-bg: $ssm-field;
+$form-check-input-border: 2px solid $ssm-field-border;
+$form-switch-color: rgba(#ffffff, 0.4);
+$btn-close-color: $ssm-text;
 
+$table-color: $ssm-text;
+$table-bg: transparent;
+$table-border-color: rgba($ssm-frame-top, 0.9);
+$table-hover-bg: rgba(#ffffff, 0.06);
+$table-striped-bg: rgba(#ffffff, 0.03);
 
-::-moz-selection {
-    /* Code for Firefox */
-    color: $dark;
-    background: $link-color;
-}
+$badge-font-weight: 400;
+$modal-backdrop-bg: #07000d;
+$modal-backdrop-opacity: 0.75;
+$modal-header-border-color: $ssm-frame-top;
+$card-bg: rgba($ssm-ink, 0.94);
+$card-border-color: $ssm-frame-top;
 
 ::selection {
-    color: $dark;
-    background: $link-color;
-}
-
-* {
-    font-family: "Consolas", Monospace;
+  color: $ssm-ink;
+  background: $ssm-cyan;
+  text-shadow: none;
 }
 
 @import "bootstrap/scss/bootstrap";
 
-.material-symbols-outlined {
-    @extend .text-primary;
+:root {
+  --ssm-font-pixel: #{$font-pixel};
+  --ssm-font-code: #{$font-code};
+  // One "Minecraft pixel" for borders and bevels.
+  --mc-px: 2px;
+  --mc-shadow: calc(1em / 9) calc(1em / 9) 0 color-mix(in srgb, currentColor 25%, #000);
+}
 
-    vertical-align: middle;
-    font-variation-settings:
-        'FILL' 1,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 48
+// ------------------------------------------------------------------ type
+
+body {
+  overflow-x: hidden;
+}
+
+// Minecraft draws every string with a copy one font pixel down-right at 1/4
+// brightness. Set on every element (not inherited) so the offset follows each
+// element's own font size.
+* {
+  text-shadow: var(--mc-shadow);
+}
+
+code,
+pre,
+kbd,
+samp,
+input,
+textarea,
+select,
+.material-symbols-outlined,
+.bi {
+  text-shadow: none;
+}
+
+pre {
+  padding: 0.75rem;
+  background: rgba($ssm-ink, 0.94);
+  border: 2px solid $ssm-frame-top;
+}
+
+h1,
+.h1 {
+  overflow-wrap: break-word;
+  animation: ssm-boot 0.45s steps(5, end);
+
+  // Listed after the boot animation so that one doesn't replay on mouse out.
+  &:hover {
+    animation:
+      ssm-boot 0.45s steps(5, end),
+      ssm-glitch 0.3s steps(1, end);
+  }
+}
+
+@include media-breakpoint-down(md) {
+  h1,
+  .h1 {
+    font-size: 1.6875rem;
+  }
+}
+
+h2,
+h3,
+.h2,
+.h3 {
+  overflow-wrap: break-word;
+}
+
+h4,
+.h4 {
+  font-weight: 700;
+}
+
+a {
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 2px;
+
+  &:hover {
+    animation: ssm-jitter 0.25s steps(1, end);
+  }
+}
+
+.material-symbols-outlined {
+  @extend .text-primary;
+
+  vertical-align: middle;
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 48;
+}
+
+// Admin pages are dense tables; keep them in a regular monospace.
+.ssm-plain {
+  --mc-shadow: none;
+  font-family: $font-code;
+  font-size: 1rem;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: $font-pixel;
+  }
+}
+
+// ------------------------------------------------------------------ Minecraft tooltip
+
+// 0xF0100010 fill, a 0x505000FF -> 0x5028007F frame on its outer pixel, and
+// one more pixel of fill outside that with the corners cut off.
+@mixin mc-tooltip($alpha: 0.94) {
+  background-color: rgba($ssm-ink, $alpha);
+  border: var(--mc-px) solid transparent;
+  border-image: linear-gradient(rgba(80, 0, 255, 0.31), rgba(40, 0, 127, 0.31)) 1;
+  box-shadow:
+    0 calc(-1 * var(--mc-px)) 0 0 rgba($ssm-ink, $alpha),
+    0 var(--mc-px) 0 0 rgba($ssm-ink, $alpha),
+    calc(-1 * var(--mc-px)) 0 0 0 rgba($ssm-ink, $alpha),
+    var(--mc-px) 0 0 0 rgba($ssm-ink, $alpha);
+}
+
+.mc-tooltip {
+  @include mc-tooltip;
+}
+
+.mc-panel {
+  @include mc-tooltip;
+  padding: 1.25rem 1.5rem;
+}
+
+// Small caps-like label above a value, "KVAL ONLINE" on the poster.
+.mc-label {
+  display: block;
+  color: $ssm-teal;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+// ------------------------------------------------------------------ navbar
+
+.ssm-navbar {
+  position: relative;
+  font-family: $font-pixel;
+  background-color: rgba($ssm-ink, 0.94) !important;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 calc(-1 * var(--mc-px));
+    height: var(--mc-px);
+    background: linear-gradient(90deg, $ssm-pink 0 33.34%, $ssm-green 0 66.67%, $ssm-cyan 0);
+  }
+
+  .nav-link {
+    &:hover,
+    &:focus-visible {
+      animation: ssm-jitter 0.25s steps(1, end);
+    }
+
+    &.active,
+    &.router-link-active {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.35em;
+    }
+  }
+
+  .btn.nav-link {
+    padding-inline: 0.75rem;
+  }
+}
+
+.dropdown-menu {
+  --bs-dropdown-border-width: 0;
+  @include mc-tooltip(0.96);
+  font-family: $font-pixel;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  animation: ssm-jitter 0.25s steps(1, end);
+}
+
+// ------------------------------------------------------------------ buttons
+
+.btn {
+  position: relative;
+  border: var(--mc-px) solid #000;
+  font-family: $font-pixel;
+  box-shadow:
+    inset var(--mc-px) var(--mc-px) 0 rgba(255, 255, 255, 0.35),
+    inset calc(-1 * var(--mc-px)) calc(-1 * var(--mc-px)) 0 rgba(0, 0, 0, 0.4);
+  transition: none;
+
+  // Hovered Minecraft buttons get a white frame.
+  &:hover,
+  &:focus-visible {
+    border-color: #fff;
+  }
+
+  &:active,
+  &.active {
+    top: 1px;
+    box-shadow:
+      inset calc(-1 * var(--mc-px)) calc(-1 * var(--mc-px)) 0 rgba(255, 255, 255, 0.25),
+      inset var(--mc-px) var(--mc-px) 0 rgba(0, 0, 0, 0.45);
+  }
+
+  &:disabled,
+  &.disabled {
+    border-color: #000;
+    filter: saturate(0.3);
+  }
+}
+
+.btn-primary,
+.btn-success,
+.btn-light,
+.btn-outline-primary:hover {
+  text-shadow: none;
+}
+
+.btn-primary {
+  --bs-btn-color: #{$ssm-ink};
+  --bs-btn-hover-color: #{$ssm-ink};
+  --bs-btn-active-color: #{$ssm-ink};
+  --bs-btn-hover-bg: #{lighten($ssm-teal, 8%)};
+  --bs-btn-active-bg: #{darken($ssm-teal, 8%)};
+}
+
+.btn-danger {
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-color: #fff;
+}
+
+[class*="btn-outline-"] {
+  box-shadow: none;
+  border-color: currentColor;
+}
+
+.btn-close {
+  box-shadow: none;
+  border: 0;
+}
+
+// ------------------------------------------------------------------ forms
+
+.form-control,
+.form-select {
+  border-width: var(--mc-px);
+  font-family: $font-pixel;
+  caret-color: $ssm-teal;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: $ssm-field;
+  color: $ssm-text;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  color: #8a8199;
+}
+
+.form-check-input {
+  border-radius: 0;
+
+  &:checked {
+    border-color: $ssm-teal;
+  }
+}
+
+.input-group > .form-control:focus {
+  z-index: 3;
+}
+
+// Wrong flags shake the input, see components/FlagInput.vue.
+.flag-input.is-wrong {
+  animation: mc-hurt 0.35s linear;
+
+  .form-control {
+    border-color: $ssm-redstone;
+  }
+}
+
+.input-replacer::placeholder {
+  color: #8a8199;
+  opacity: 1;
+}
+
+// ------------------------------------------------------------------ tables
+
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-color: #{$ssm-text};
+
+  > thead th {
+    color: $ssm-muted;
+    font-weight: 400;
+    border-bottom-color: $ssm-frame-top;
+  }
+}
+
+// Scoreboard podium, as the three most valuable Minecraft ores.
+.rank-1 td:first-child {
+  color: #4aedd9;
+}
+.rank-2 td:first-child {
+  color: #fcee4b;
+}
+.rank-3 td:first-child {
+  color: #d8d8d8;
+}
+
+// ------------------------------------------------------------------ badges, alerts, cards, modals
+
+.badge {
+  border: var(--mc-px) solid rgba(0, 0, 0, 0.5);
+
+  &.bg-primary,
+  &.bg-light {
+    color: $ssm-ink;
+    text-shadow: none;
+  }
+}
+
+.alert {
+  @include mc-tooltip;
+  color: $ssm-text;
+
+  &.alert-danger {
+    border-image: linear-gradient($ssm-redstone, darken($ssm-redstone, 25%)) 1;
+  }
+
+  &.alert-warning {
+    border-image: linear-gradient($ssm-gold, darken($ssm-gold, 25%)) 1;
+  }
+
+  &.alert-success {
+    border-image: linear-gradient($ssm-green, darken($ssm-green, 25%)) 1;
+  }
+}
+
+// Challenge cards are tooltips too. Solved ones get a green frame, and in a CTF
+// the ones only a teammate has solved get a gold one.
+.challenge-card {
+  @include mc-tooltip;
+
+  &.is-solved {
+    background-color: rgba(mix($ssm-green, #000, 16%), 0.94);
+    border-image: linear-gradient($ssm-green, darken($ssm-green, 25%)) 1;
+  }
+
+  &.is-team-solved {
+    border-image: linear-gradient($ssm-gold, darken($ssm-gold, 25%)) 1;
+  }
+}
+
+.modal-content {
+  --bs-modal-border-width: 0;
+  @include mc-tooltip(0.97);
+  animation: ssm-boot 0.3s steps(4, end);
+}
+
+.modal-backdrop.show {
+  background-image: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 4px);
+}
+
+// ------------------------------------------------------------------ Minecraft bits
+
+// Portal particles around an element, see components/PortalParticles.vue.
+.portal-aura {
+  position: absolute;
+  inset: -1rem;
+  z-index: 3;
+  pointer-events: none;
+}
+
+// Hovered inventory slots get a white wash.
+.mc-slot {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: #fff;
+    opacity: 0;
+  }
+
+  &:hover::before {
+    opacity: 0.08;
+  }
+}
+
+// Taking damage: a shake and a red flash.
+.mc-hurt {
+  animation: mc-hurt 0.35s linear;
+}
+
+// ------------------------------------------------------------------ scrollbars
+
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-color: $ssm-field-border $ssm-ink;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+::-webkit-scrollbar-track {
+  background: $ssm-ink;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $ssm-field-border;
+  border: 2px solid $ssm-ink;
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.25),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.4);
+
+  &:hover {
+    background: $ssm-lavender;
+  }
+}
+
+:focus-visible {
+  outline: 2px dashed $ssm-teal;
+  outline-offset: 2px;
+}
+
+// ------------------------------------------------------------------ animations
+
+// Materialising in a few torn frames.
+@keyframes ssm-boot {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    transform: translateX(-4px);
+  }
+  20% {
+    clip-path: inset(40% 30% 20% 0);
+    transform: translateX(3px);
+  }
+  40% {
+    clip-path: inset(0 10% 60% 0);
+    transform: translateX(-2px);
+  }
+  60% {
+    clip-path: inset(50% 0 0 0);
+    transform: translateX(0);
+  }
+  80% {
+    clip-path: inset(0 0 30% 0);
+    transform: translateX(1px);
+  }
+  100% {
+    clip-path: inset(0);
+    transform: none;
+  }
+}
+
+@keyframes ssm-glitch {
+  0% {
+    transform: translate(-3px, 1px) skewX(-8deg);
+    text-shadow:
+      -3px 0 $ssm-pink,
+      3px 0 $ssm-cyan;
+    clip-path: inset(0 0 50% 0);
+  }
+  33% {
+    transform: translate(3px, -1px);
+    text-shadow:
+      3px 0 $ssm-pink,
+      -3px 0 $ssm-green;
+    clip-path: inset(40% 0 0 0);
+  }
+  66% {
+    transform: translate(-1px, 0) skewX(6deg);
+    text-shadow:
+      -2px 0 $ssm-cyan,
+      2px 0 $ssm-pink;
+    clip-path: inset(15% 0 25% 0);
+  }
+  100% {
+    transform: none;
+    clip-path: none;
+  }
+}
+
+// For inline text, which can't be transformed: just the colour split.
+@keyframes ssm-jitter {
+  0% {
+    text-shadow:
+      -2px 0 $ssm-pink,
+      2px 0 $ssm-cyan;
+  }
+  50% {
+    text-shadow:
+      2px 0 $ssm-pink,
+      -2px 0 $ssm-green;
+  }
+  100% {
+    text-shadow: var(--mc-shadow);
+  }
+}
+
+@keyframes mc-hurt {
+  0%,
+  100% {
+    transform: none;
+  }
+  15% {
+    transform: translateX(-6px) rotate(-0.6deg);
+    box-shadow: 0 0 0 100vmax rgba(255, 0, 0, 0.08);
+  }
+  35% {
+    transform: translateX(5px) rotate(0.5deg);
+  }
+  55% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+// The Konami code, see plugins/easter-eggs.client.ts. Only moves the layout,
+// so the fixed background stays put.
+@keyframes ssm-storm {
+  0% {
+    transform: none;
+    filter: none;
+  }
+  25% {
+    transform: translate(-6px, 2px);
+    filter: hue-rotate(80deg) saturate(1.6);
+  }
+  50% {
+    transform: translate(5px, -3px);
+    filter: hue-rotate(-60deg);
+  }
+  75% {
+    transform: translate(-2px, 4px);
+    filter: hue-rotate(160deg) contrast(1.2);
+  }
+  100% {
+    transform: none;
+    filter: none;
+  }
+}
+
+html.ssm-glitch-storm .ssm-layout {
+  animation: ssm-storm 0.4s steps(1, end) 5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

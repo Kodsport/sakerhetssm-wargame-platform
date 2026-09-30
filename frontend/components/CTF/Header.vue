@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-md bg-dark">
+  <nav class="navbar navbar-expand-md bg-dark ssm-navbar">
     <div class="container-fluid">
       <nuxt-link :to="'/ctf/' + slug" class="navbar-brand">{{
         ctfStore.ctf.name

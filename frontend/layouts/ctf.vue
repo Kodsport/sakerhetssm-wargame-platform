@@ -1,5 +1,5 @@
 <template>
-  <div class="ctf-gradient-bg">
+  <div class="ctf-gradient-bg ssm-layout">
     <CTFHeader />
     <div class="px-3 py-4">
       <slot />

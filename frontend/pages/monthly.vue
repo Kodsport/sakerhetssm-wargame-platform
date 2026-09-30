@@ -4,9 +4,9 @@
         <div>
           <h2 class="text-primary ">Vad är månadens problem?</h2>
         </div>
-        <div class="bg-dark rounded col pt-md-0 mb-4">
-          <div class="pt-md-2 d-flex justify-content-between bg-body-hover pointer-cursor rounded p-4">
-            <div class="rounded p-3 d-flex justify-content-center align-items-start" style="width:48%;">
+        <div class="mc-panel mb-4">
+          <div class="row g-4">
+            <div class="col-12 col-md-6">
               <div>
                 <h4 class="text-primary mb-1 text-center">Beskrivning</h4>
                 <p class="text-white">Månadens problem är en utmaning i varierande svårighetsgrad skapad av medlemmar i CTF-gemenskapen.</p>
@@ -15,7 +15,7 @@
               </div>
             </div>
 
-            <div class="rounded p-3 d-flex justify-content-center align-items-start" style="width:48%;">
+            <div class="col-12 col-md-6">
               <div>
                 <h4 class="text-primary mb-1 text-center">Regler</h4>
                 <p class="text-white">För att vara behörig till pris behöver lösaren vara i grund eller gymnasieålder.</p>
@@ -43,9 +43,9 @@
         v-if="prev_monthlies.status.value == 'success'"
         class="mb-2"
       >
-        <div class="bg-dark rounded">
+        <div class="mc-tooltip">
           <div
-            class="text-primary rounded p-4 d-flex justify-content-between align-items-center bg-body-hover pointer-cursor hover-thing"
+            class="text-primary p-4 d-flex justify-content-between align-items-center hover-thing"
             v-if="show_prev_monthly != prev_monthly.challenge_id"
             @click="show_prev_monthly = prev_monthly.challenge_id"
           >
@@ -106,9 +106,11 @@ watch(
 );
 </script>
 <style scoped>
-.hover-thing:hover {
-  transition: background-color 0.2s;
-  background-color: #003642;
+.hover-thing {
   cursor: pointer;
+}
+
+.hover-thing:hover {
+  background-color: rgba(255, 255, 255, 0.08);
 }
 </style>

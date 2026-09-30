@@ -5,7 +5,7 @@
     </p>
 
     <div class="d-flex flex-column flex-lg-row pt-4">
-        <div class="ssm-filter pe-lg-3">
+        <div class="ssm-filter mc-panel align-self-lg-start mb-4 me-lg-4">
             <h3>Filtrera</h3>
             <div class="form-group">
                 <label>Kategori</label>

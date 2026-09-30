@@ -1,5 +1,9 @@
 <template>
-    <div class="card h-100" :class="{ 'bg-info': !props.chall.solved, 'bg-success': props.chall.solved }">
+    <div class="card h-100 challenge-card" :class="{ 'is-solved': props.chall.solved }">
+        <!-- The hardest challenges are portals. -->
+        <div v-if="props.chall.score > 500" class="portal-aura">
+            <PortalParticles spawn="edge" />
+        </div>
         <div class="card-body">
             <h4>{{ props.chall.title }}</h4>
             <h5>

@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin
+Disallow: /oauth/
+Disallow: /user
+Disallow: /ctf/*/user/

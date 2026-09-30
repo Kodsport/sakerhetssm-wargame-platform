@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div>
+        <div class="mc-panel">
             <h1 class="text-primary">Lär dig CTF</h1>
             <p>Nedan följer några bra resurser för att lära sig om CTF och IT-säkerhetstävlingar.</p>
             <h3 class="text-primary">Säkerhets-SM föreläsningar</h3>
@@ -38,13 +38,10 @@
                     <a href="https://www.youtube.com/playlist?list=PLzzz0pYwY0M0u5daM96-QvHagA5v7FhLP">Här</a>
                     går Calle igenom alla problem från tidigare SSM-tävlingar.
                 </li>
-                <li>
-                    <a href="https://www.youtube.com/user/RootOfTheNull">John Hammond</a>
-                </li>
             </ul>
             <h3 class="text-primary">CTF och Wargames</h3>
             <p>Wargames är som en CTF, fast den är uppe permanent. PicoCTF är en CTF som körs under en period och
-                efteråt så lämnar organisatörerna tävlingen uppe så att folk kan träna. OverTheWire är en wargames-sida.
+                efteråt så lämnar organisatörerna tävlingen uppe så att folk kan träna.
             </p>
             <ul>
                 <li>
@@ -53,8 +50,6 @@
                 <li><a href="https://picoctf.com/">PicoCTF</a></li>
                 <li><a href="https://pwn.college/">pwn.college</a></li>
                 <li><a href="https://cryptohack.org/">Cryptohack</a></li>
-                <li><a href="http://overthewire.org/">OverTheWire</a></li>
-                <li><a href="https://ctf.fro.se/">FRO CTF</a></li>
             </ul>
             <h3 class="text-primary">Länksamlingar och anteckningar</h3>
             <ul>

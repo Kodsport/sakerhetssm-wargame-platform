@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="alert-box" v-if="text">
+    <div class="alert-box mc-tooltip" v-if="text">
       {{ text }}
     </div>
     <div class="timeline-container" v-if="ctfStore.ctf.slug && !hasEnded && !hasNotStarted">
@@ -8,6 +8,7 @@
         <span>{{ formatTime(ctfStore.ctf.start_time) }}</span>
         <span>{{ formatTime(ctfStore.ctf.end_time) }}</span>
       </div>
+      <div class="timeline-level" title="Procent av tävlingen som har gått">{{ Math.floor(progress) }}%</div>
       <div class="timeline-bar">
         <div class="timeline-progress" :style="{ width: progress + '%' }"></div>
       </div>
@@ -98,14 +99,10 @@ function formatTime(time: string) {
 </script>
 <style scoped>
 .alert-box {
-  background-color: #00000056;
-  border: 2px solid #00000056;
   color: white;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 10px 14px;
   margin-bottom: 10px;
   margin-top: 10px;
-  font-size: 1.1rem;
 }
 
 .timeline-container {
@@ -114,21 +111,25 @@ function formatTime(time: string) {
 .timeline-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 0.95rem;
   color: #ccc;
   margin-bottom: 4px;
 }
+.timeline-level {
+  margin-bottom: 4px;
+  text-align: center;
+  color: #ccc;
+}
 .timeline-bar {
   width: 100%;
-  height: 12px;
-  background: #222;
-  border-radius: 6px;
+  height: 14px;
+  background: #1c1228;
+  border: 2px solid #4a3a66;
   overflow: hidden;
   position: relative;
 }
 .timeline-progress {
   height: 100%;
-  background: linear-gradient(279deg, #32b86f, #008eae);
+  background: linear-gradient(90deg, #ea507c, #75da91, #53d8df);
   transition: width 0.5s;
 }
 </style>

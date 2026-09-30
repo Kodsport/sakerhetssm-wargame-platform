@@ -70,7 +70,6 @@ async function submitFlag() {
 
         store.getCourseChalls(courseMeta.value.id)
 
-
     } catch (error) {
 
     }

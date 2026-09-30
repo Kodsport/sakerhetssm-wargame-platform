@@ -1,15 +1,18 @@
 <template>
-    <h1 class="text-primary">Knäck Koden</h1>
-    <p>
-        Knäck koden är en återkommande tävling i cybersäkerhet för grundskolan. Eleverna arbetar tillsammans i klassrummet för att träna digital hygien, problemlösning och digital handlingskompetens genom att arbeta med uppdrag och lösa utmaningar. Allt anpassat efter Lgr-22. Varje år har tävlingen ett nytt tema som kopplar cybersäkerhet till aktuella samhällsfrågor.
-        Vill du ha Knäck Koden-lektioner i din skola? Spana in <a
-            href="https://kodcentrum.se/knack-koden">informationen hos Kodcentrum!</a>
-    </p>
-    <h1 class="text-primary">Föreläsningar för gymnasiet!</h1>
-    <p>
-        Vi kommer gärna och föreläser för era studenter! Vi förklarar hur man hackar och hur man kommer in i svenska hackinglandslaget! Kontakta sakerhetssm@kodsport.se för att boka! 
-    </p>
-
+    <div class="container">
+        <div class="mc-panel">
+            <h1 class="text-primary">Knäck Koden</h1>
+            <p>
+                Knäck koden är en återkommande tävling i cybersäkerhet för grundskolan. Eleverna arbetar tillsammans i klassrummet för att träna digital hygien, problemlösning och digital handlingskompetens genom att arbeta med uppdrag och lösa utmaningar. Allt anpassat efter Lgr-22. Varje år har tävlingen ett nytt tema som kopplar cybersäkerhet till aktuella samhällsfrågor.
+                Vill du ha Knäck Koden-lektioner i din skola? Spana in <a
+                    href="https://kodcentrum.se/knack-koden">informationen hos Kodcentrum!</a>
+            </p>
+            <h1 class="text-primary">Föreläsningar för gymnasiet!</h1>
+            <p>
+                Vi kommer gärna och föreläser för era studenter! Vi förklarar hur man hackar och hur man kommer in i svenska hackinglandslaget! Kontakta sakerhetssm@kodsport.se för att boka! 
+            </p>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
