@@ -47,12 +47,13 @@ export default defineNuxtConfig({
         lang: "se",
       },
       script: [
-        {
-          // <script defer src="https://analytics.sakerhetssm.se/script.js" data-website-id="ec04f82f-8090-4b5a-b404-5a07099e1d78"></script>
-          defer: true,
-          src: "https://analytics.sakerhetssm.se/script.js",
-          "data-website-id": "ec04f82f-8090-4b5a-b404-5a07099e1d78",
-        },
+        // temp
+        // {
+        //   // <script defer src="https://analytics.sakerhetssm.se/script.js" data-website-id="ec04f82f-8090-4b5a-b404-5a07099e1d78"></script>
+        //   defer: true,
+        //   src: "https://analytics.sakerhetssm.se/script.js",
+        //   "data-website-id": "ec04f82f-8090-4b5a-b404-5a07099e1d78",
+        // },
       ],
     },
   },
