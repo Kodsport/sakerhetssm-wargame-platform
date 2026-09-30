@@ -80,9 +80,9 @@
 
       <h1 class="text-primary">Förra månaders utmaningar</h1>
       <div
-        v-for="prev_monthly in prev_monthlies.data.value.filter(
-          (e) => monthly?.data?.value?.challenge_id !== e.challenge_id
-        )"
+        v-for="prev_monthly in prev_monthlies.data.value
+          .filter((e) => monthly?.data?.value?.challenge_id !== e.challenge_id)
+          .sort((a, b) => b.start_date - a.start_date)"
         v-if="prev_monthlies.status.value == 'success'"
         class="mb-2"
       >
