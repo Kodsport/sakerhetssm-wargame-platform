@@ -78,13 +78,14 @@
               <div class="d-flex" v-for="service in props.chall.services">
                 <span class="material-symbols-outlined pe-2">router</span>
                 <a
+                  class="text-break"
                   v-if="service.hyperlink"
                   :href="service.user_display"
                   target="_blank"
                   rel="nofollow"
                   >{{ service.user_display }}</a
                 >
-                <span v-else>{{ service.user_display }}</span>
+                <span v-else class="text-break">{{ service.user_display }}</span>
               </div>
               <div v-for="file in props.chall.files">
                 <FileDownload :file="file" />

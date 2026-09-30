@@ -11,7 +11,6 @@ const SPLASHES = [
   "roppa bara fuzzen cuhh",
   "Har du provat strings?",
   "' OR 1=1 --",
-  "LGTM",
   "man kan bara dra in blockchain in i pwn kategorin - wii",
   "Mitt tredje program",
   "stack not 16-byte aligned?",
@@ -28,7 +27,9 @@ const SPLASHES = [
   "cross site styling, 😎",
   "watevr",
   "Alfreds lärling",
-  "Tony Rickardsson vann Säkerhets-SM 1945"
+  "Tony Rickardsson vann Säkerhets-SM 1945",
+  "jag är kommunalfullmäktige i danderyd",
+  "🙈"
 ];
 
 /** Minecraft swaps the splash on a few special days, so do we. */
