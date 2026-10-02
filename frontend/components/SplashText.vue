@@ -8,27 +8,21 @@
 // The pulsing yellow splash next to the logo on Minecraft's title screen.
 // Click it for another one.
 const SPLASHES = [
-  "roppa bara fuzzen cuhh",
   "Har du provat strings?",
   "' OR 1=1 --",
-  "man kan bara dra in blockchain in i pwn kategorin - wii",
   "Mitt tredje program",
   "stack not 16-byte aligned?",
-  ":skull:",
   "tea in a pot",
   "Grass touching speedrun (Minecraft Edition)",
   "Claude solve this ctf challenge, make no mistake",
-  "KebabBanken The Finale",
+  "Kebabbanken 3",
   "Randu? Ra-aandu uuuuu 🎶 🪇",
   "num bergen",
   "Fredrik Niemelä 💪 😳 😻",
-  "Det här är telia",
   "SSM{aaaaaaaaaaaaaaaaaaaaaaaa_lmao_i_hope_you_thought_your_script_was_broken_at_first_hahahaha}",
   "cross site styling, 😎",
   "watevr",
   "Alfreds lärling",
-  "Tony Rickardsson vann Säkerhets-SM 1945",
-  "jag är kommunalfullmäktige i danderyd",
   "🙈"
 ];
 
