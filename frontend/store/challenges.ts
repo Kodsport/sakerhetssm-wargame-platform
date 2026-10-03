@@ -26,7 +26,7 @@ export const useChallengeStore = defineStore('challenges', {
         },
         async getEvents() {
             const cats = await http('/events')
-            this.events = cats
+            this.events = cats.sort((a, b) => a.name < b.name)
         },
         async getAuthors() {
             const authors = await http('/authors')
