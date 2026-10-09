@@ -3,7 +3,7 @@
         <h1>{{ chall.title }}</h1>
         <div v-html="renderMarkdown(chall.description)"></div>
         <div v-if="chall.files.length || chall.services.length" class="py-5">
-            <h4>Resurser</h4>
+            <h4>{{ $t('courses.resources') }}</h4>
             <div v-for="file in chall.files">
                 <FileDownload :file="file" />
             </div>
@@ -23,12 +23,12 @@
         <div class="d-flex justify-content-between pt-5">
             <span>
                 <button class="btn btn-primary" v-if="prevChall"
-                    @click="router.push(`/courses/${courseMeta.slug}/${prevChall.slug}`)">Föregående moment</button>
+                    @click="router.push(`/courses/${courseMeta.slug}/${prevChall.slug}`)">{{ $t('common.previous') }}</button>
             </span>
             <span>
                 <button class="btn btn-primary" v-if="nextChall"
-                    @click="router.push(`/courses/${courseMeta.slug}/${nextChall.slug}`)">Nästa moment</button>
-                <button class="btn btn-primary" :disabled="!chall.solved" v-else>Avsluta kurs</button>
+                    @click="router.push(`/courses/${courseMeta.slug}/${nextChall.slug}`)">{{ $t('common.next') }}</button>
+                <button class="btn btn-primary" :disabled="!chall.solved" v-else>{{ $t('courses.leaveCourse') }}</button>
             </span>
         </div>
     </div>

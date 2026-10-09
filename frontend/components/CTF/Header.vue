@@ -23,7 +23,7 @@
               class="nav-link"
               :to="'/ctf/' + slug + '/challenges'"
             >
-              Utmaningar
+              {{ $t('ctf.challenges') }}
             </nuxt-link>
           </li>
           <li class="nav-item">
@@ -32,7 +32,7 @@
               class="nav-link"
               :to="'/ctf/' + slug + '/scoreboard'"
             >
-              Poängtavla
+              {{ $t('ctf.scoreboard') }}
             </nuxt-link>
           </li>
         </ul>
@@ -62,7 +62,7 @@
               class="btn btn-primary"
               @click="$router.push('/ctf/' + slug)"
             >
-              Logga in
+              {{ $t('ctf.login') }}
             </button>
           </div>
         </client-only>

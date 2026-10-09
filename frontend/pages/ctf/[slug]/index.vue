@@ -5,30 +5,30 @@
     <div class="gradient-border mb-4 mt-4"></div>
     <client-only>
       <section v-if="!auth.ctfUser.id">
-        <h2>Registrera dig</h2>
-        <p>Detta namn kommer att visas på topplistan!</p>
+        <h2>{{ $t('ctf.register') }}</h2>
+        <p>{{ $t('ctf.registerHint') }}</p>
         <form @submit.prevent="register">
           <input
             class="form-control"
             v-model="username"
-            placeholder="Namn"
+            :placeholder="$t('ctf.namePlaceholder')"
             required
           />
           <input
             v-if="ctfStore.ctf.team_based"
             class="form-control mt-2"
             v-model="teamCode"
-            placeholder="Lagkod"
+            :placeholder="$t('ctf.teamCode')"
           />
           <button class="btn btn-primary mt-2" type="submit">
-            Registrera dig
+            {{ $t('ctf.register') }}
           </button>
         </form>
         <p v-if="registrationError" class="text-danger mt-2">
           {{ registrationError }}
         </p>
-        <h2 class="mt-4">Logga in</h2>
-        <p>Använd din lösenordsfras för att logga in!</p>
+        <h2 class="mt-4">{{ $t('ctf.loginHeading') }}</h2>
+        <p>{{ $t('ctf.usePassword') }}</p>
         <form @submit.prevent="login">
           <input
             class="form-control"
@@ -36,28 +36,28 @@
             placeholder="correct-horse-battery-staple"
             required
           />
-          <button class="btn btn-primary mt-2" type="submit">Logga in</button>
+          <button class="btn btn-primary mt-2" type="submit">{{ $t('ctf.login') }}</button>
         </form>
         <p v-if="loginError" class="text-danger mt-2">{{ loginError }}</p>
       </section>
       <section v-if="auth.ctfUser.id">
         <p class="mb-2">
-          Du är registrerad på denna CTF som {{ auth.ctfUser.username || ""
+          {{ $t('ctf.registeredAs') }} {{ auth.ctfUser.username || ""
           }}<span v-if="ctfStore.ctf.team_based && auth.ctfUser.teamname">
-            i laget {{ auth.ctfUser.teamname }} </span
-          >. Din lösenordsfras är
+            {{ $t('ctf.inTeam') }} {{ auth.ctfUser.teamname }} </span
+          >{{ $t('ctf.passwordIs') }}
           <span id="passwordHover" class="hover" @click="copyPassword">{{
             auth.ctfUser.password || ""
           }}</span
-          >. Kopiera eller kom ihåg den om du vill logga in på en annan enhet.
+          >{{ $t('ctf.copyHint') }}
         </p>
         <button
           class="btn btn-primary me-2"
           @click="router.push(`/ctf/${slug}/challenges`)"
         >
-          Gå till utmaningar
+          {{ $t('ctf.goToChallenges') }}
         </button>
-        <button class="btn btn-danger" @click="logout">Logga ut</button>
+        <button class="btn btn-danger" @click="logout">{{ $t('nav.logout') }}</button>
       </section>
     </client-only>
   </div>
@@ -69,6 +69,9 @@ import { useRoute, useRouter } from "vue-router";
 import { useCTFStore } from "../../../store/ctf";
 import { useAuthStore } from "../../../store/auth";
 import useHttp from "@/composables/use-http";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 definePageMeta({
   layout: "ctf",
@@ -100,7 +103,7 @@ async function register() {
     if (e.response) {
       registrationError.value = e.response._data.message;
     } else {
-      registrationError.value = "Något gick fel, försök igen.";
+      registrationError.value = t("ctf.somethingWrong");
     }
   }
 }
@@ -122,7 +125,7 @@ async function login() {
     if (e.response) {
       loginError.value = e.response._data.message;
     } else {
-      loginError.value = "Något gick fel, försök igen.";
+      loginError.value = t("ctf.somethingWrong");
     }
   }
 }

@@ -44,7 +44,7 @@ export default defineNuxtConfig({
         { name: "theme-color", content: "#100010" },
       ],
       htmlAttrs: {
-        lang: "se",
+        lang: "sv",
       },
       script: [
         // temp

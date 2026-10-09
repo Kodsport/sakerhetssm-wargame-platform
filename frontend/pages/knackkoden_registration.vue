@@ -1,53 +1,52 @@
 <template>
 
     <div>
-        <h1>Registrera din klass för Knäck Koden!</h1>
+        <h1>{{ $t('knackkoden.registerTitle') }}</h1>
 
         <p>
-            Inloggningen för knäck koden är separat från den som visas i det övre högra hörnet. Gå in på fliken "Knäck
-            Koden" för att logga in!
+            {{ $t('knackkoden.loginSeparate') }}
         </p>
         <p>
-            Vid problem, mejla movitz@kodsport.se
+            {{ $t('knackkoden.trouble') }}
         </p>
         <div class="col-4">
 
             <div class="form-group">
-                <label for="class_name">Klassens namn (t.ex. 4C)</label>
+                <label for="class_name">{{ $t('knackkoden.className') }}</label>
                 <input class="form-control" type="text" v-model="form.class_name" name="class_name" id="class_name">
             </div>
             <div class="form-group">
-                <label for="school_name">Skolans namn</label>
+                <label for="school_name">{{ $t('knackkoden.schoolName') }}</label>
                 <input class="form-control" type="text" v-model="form.school_name" name="school_name" id="school_name">
             </div>
             <div class="form-group">
-                <label for="postal_code">Skolans postnummer</label>
+                <label for="postal_code">{{ $t('knackkoden.schoolZip') }}</label>
                 <input class="form-control" type="text" v-model="form.postal_code" name="postal_code" id="postal_code">
             </div>
             <div class="form-group">
-                <label for="teacher_full_name">Lärarens namn</label>
+                <label for="teacher_full_name">{{ $t('knackkoden.teacherName') }}</label>
                 <input class="form-control" type="text" v-model="form.teacher_full_name" name="teacher_full_name"
                     id="teacher_full_name">
             </div>
             <div class="form-group">
-                <label for="teacher_email">Lärarens mejl</label>
+                <label for="teacher_email">{{ $t('knackkoden.teacherEmail') }}</label>
                 <input class="form-control" type="text" v-model="form.teacher_email" name="teacher_email"
                     id="teacher_email">
             </div>
             <div class="form-group">
-                <label for="teacher_phonenr">Lärarens telefonnr</label>
+                <label for="teacher_phonenr">{{ $t('knackkoden.teacherPhone') }}</label>
                 <input class="form-control" type="text" v-model="form.teacher_phonenr" name="teacher_phonenr"
                     id="teacher_phonenr">
             </div>
 
 
-            <button class="btn btn-primary mt-2" @click="register">Registrera klass</button>
+            <button class="btn btn-primary mt-2" @click="register">{{ $t('knackkoden.registerClass') }}</button>
         </div>
 
         <div class="alert alert-success mt-3" v-if="password != ''">
-            Klassens lösenord är {{ password }}
+            {{ $t('knackkoden.classPasswordIs') }} {{ password }}
             <br>
-            Spara det. Lösenordet visas inte igen.
+            {{ $t('knackkoden.saveIt') }}
         </div>
     </div>
 </template>
