@@ -81,6 +81,13 @@
               <li>
                 <a
                   class="text-primary dropdown-item"
+                  href="https://arkiv.sakerhetssm.se/ssm2026"
+                  >2026</a
+                >
+              </li>
+              <li>
+                <a
+                  class="text-primary dropdown-item"
                   href="https://arkiv.sakerhetssm.se/ssm2025"
                   >2025</a
                 >
