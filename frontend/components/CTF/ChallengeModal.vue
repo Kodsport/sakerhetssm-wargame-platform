@@ -35,7 +35,7 @@
           v-if="props.chall.numUsersInYourTeamSolved !== undefined"
         >
           <span class="badge bg-secondary mx-1"
-            >{{ props.chall.numUsersInYourTeamSolved }} i ditt lag</span
+            >{{ props.chall.numUsersInYourTeamSolved }} {{ $t('ctf.inYourTeam') }}</span
           >
         </div>
         <div
@@ -46,7 +46,7 @@
           "
         >
           <span class="badge bg-info mx-1"
-            >{{ props.chall.numUsersSolved }} användare totalt</span
+            >{{ $t('challenge.userSolves', { count: props.chall.numUsersSolved }) }}</span
           >
         </div>
 
@@ -93,7 +93,7 @@
               <div class="pt-2">
                 <div class="mb-2" v-if="chall.num_solves_in_team">
                   <strong
-                    >Lösningar inom laget:
+                    >{{ $t('ctf.teamSolutions') }}:
                     {{ chall.num_solves_in_team }}</strong
                   >
                   <ol
@@ -113,7 +113,7 @@
                   </ol>
                 </div>
                 <div class="mb-2" v-if="chall.num_team_solves">
-                  <strong>Lag som löst: {{ chall.num_team_solves }}</strong>
+                  <strong>{{ $t('ctf.teamSolves') }}: {{ chall.num_team_solves }}</strong>
                   <ol
                     v-if="chall.team_solvers && chall.team_solvers.length"
                     class="solver-list"

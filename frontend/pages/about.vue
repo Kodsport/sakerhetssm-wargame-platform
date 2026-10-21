@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column align-items-center px-2 mw-50">
-    <h2 class="text-primary">SSM Projektledning</h2>
+    <h2 class="text-primary">{{ $t('about.projectLeadership') }}</h2>
     <div class="d-flex flex-column flex-md-row ssm-row">
       <div
         v-for="person in people"
@@ -17,22 +17,18 @@
     <div class="d-flex flex-column flex-md-row align-items-center ssm-row">
       <img class="ks-logo" src="~/assets/kodsport.png" alt="Kodsport Logga" />
       <div class="mc-panel m-2">
-        <h1 class="text-primary">Föreningen</h1>
+        <h1 class="text-primary">{{ $t('about.association') }}</h1>
         <p>
-          <a href="https://www.kodsport.se/">Kodsport</a> är en ideell förening
-          som främjar teknisk excellens. Föreningen arrangerar
-          tävlingar och träningsläger i tävlingsprogrammering och Capture The
-          Flag (datorsäkerhet).
+          <a href="https://www.kodsport.se/">Kodsport</a> {{ $t('about.associationText') }}
         </p>
-        <h3 class="text-primary">Kontakt</h3>
+        <h3 class="text-primary">{{ $t('about.contact') }}</h3>
         <p>
-          Säkerhets-SM kan nås via mail på
+          {{ $t('about.contactText') }}
           <a href="mailto:sakerhetssm@kodsport.se">sakerhetssm@kodsport.se</a>
         </p>
-        <h3 class="text-primary">Stöd</h3>
+        <h3 class="text-primary">{{ $t('about.support') }}</h3>
         <p>
-          Hosting av sakerhetssm.se sponsras av GleSYS, vill eran organisation
-          och stödja oss? Kontakta oss ovan!
+          {{ $t('about.supportText') }}
         </p>
       </div>
     </div>
@@ -40,30 +36,34 @@
 </template>
 
 <script setup lang="ts">
-const people = [
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
+const people = computed(() => [
   {
     name: "Teo",
-    role: "Projektledare",
+    role: t('about.roles.projectLead'),
     url: "/placeholder.png",
     mail: "teo@kodsport.se",
   },
   {
     name: "Allan Al-Salihi",
-    role: "Tävlingsansvarig",
+    role: t('about.roles.competitionLead'),
     url: "/allan.png",
     mail: "allan.alsalihi@kodsport.se",
   },
   {
     name: "Elmer Brännström",
-    role: "Eventansvarig",
+    role: t('about.roles.eventLead'),
     url: "/elmer.png",
     mail: "elmer.brannstrom@kodsport.se",
   },
-];
+]);
 
 const url = useRequestURL();
 useHead({
-  title: "SSM - Om oss",
+  title: computed(() => t('about.title')),
   link: [
     {
       rel: "canonical",

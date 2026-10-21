@@ -3,13 +3,13 @@
         <div class="row">
             <div class="col-12 col-md-4 mb-4">
                 <div class="mc-panel h-100">
-                    <h2>Personer</h2>
+                    <h2>{{ $t('common.people') }}</h2>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Rang</th>
-                                <th>Namn</th>
-                                <th>Poäng</th>
+                                <th>{{ $t('common.rank') }}</th>
+                                <th>{{ $t('common.name') }}</th>
+                                <th>{{ $t('common.score') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -24,13 +24,13 @@
             </div>
             <div class="col-12 col-md-4 mb-4">
                 <div class="mc-panel h-100">
-                    <h2>Skolor</h2>
+                    <h2>{{ $t('common.schools') }}</h2>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Rang</th>
-                                <th>Skola</th>
-                                <th>Poäng</th>
+                                <th>{{ $t('common.rank') }}</th>
+                                <th>{{ $t('common.school') }}</th>
+                                <th>{{ $t('common.score') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,13 +46,13 @@
 
             <div class="col-12 col-md-4 mb-4">
                 <div class="mc-panel h-100">
-                    <h2>Universitet</h2>
+                    <h2>{{ $t('common.university') }}</h2>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Rang</th>
-                                <th>Skola</th>
-                                <th>Poäng</th>
+                                <th>{{ $t('common.rank') }}</th>
+                                <th>{{ $t('common.school') }}</th>
+                                <th>{{ $t('common.score') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,13 +72,17 @@
 <script setup lang="ts">
 import { useScoreboardStore } from '../store/scoreboard'
 
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
+
 const scoreboard = useScoreboardStore()
 
 await useAsyncData('userScoreboard', scoreboard.getUserScoreboards)
 await useAsyncData('scoreboard', scoreboard.getSchoolScoreboards)
 
 useHead({
-    title: 'SSM - Poängtavla'
+    title: computed(() => t('scoreboardPage.title'))
 })
 </script>
 

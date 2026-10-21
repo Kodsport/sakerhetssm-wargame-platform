@@ -45,18 +45,18 @@
           <FlagInput :class="{ 'is-wrong': warn }" v-model="flag" @keypress.enter="submitFlag"
               :solved="props.chall.solved" />
           <template #fallback>
-            <InputReplacer text="Logga in för att skicka in flaggor" />
+            <InputReplacer :text="$t('common.loginToSubmitShort')" />
           </template>
         </client-only>
       </div>
       <div class="d-inline d-md-none">
         <p class="alert alert-warning">
-          Gå in på sidan med en dator för att lösa utmaningen!
+          {{ $t('common.useComputer') }}
         </p>
       </div>
     </div>
 
-    <p>{{ props.chall.solves }} lösare</p>
+    <p>{{ $t('challenge.solves', { count: props.chall.solves }) }}</p>
   </div>
 </template>
 

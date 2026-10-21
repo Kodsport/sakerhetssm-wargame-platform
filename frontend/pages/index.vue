@@ -12,53 +12,45 @@
         <SplashText class="ssm-hero__splash" />
       </div>
 
-      <p class="ssm-hero__tagline mc-tooltip">Sveriges hackingtävling för unga</p>
+      <p class="ssm-hero__tagline mc-tooltip">{{ $t('home.tagline') }}</p>
 
       <div class="ssm-hero__facts">
         <div class="mc-panel">
-          <span class="mc-label">Kval online</span>
-          <span class="ssm-hero__fact">4-6 december 2026</span>
+          <span class="mc-label">{{ $t('home.qualOnline') }}</span>
+          <span class="ssm-hero__fact">{{ $t('home.qualDate') }}</span>
         </div>
         <div class="mc-panel">
-          <strong class="d-block">1-3 personer per lag</strong>
-          <span class="text-muted">För högstadiet och gymnasiet. Nybörjare är välkomna!</span>
+          <strong class="d-block">{{ $t('home.teamSize') }}</strong>
+          <span class="text-muted">{{ $t('home.teamSizeDesc') }}</span>
         </div>
         <div class="mc-panel">
-          <span class="mc-label">Final i Stockholm</span>
-          <span class="ssm-hero__fact">18-21 februari 2027</span>
+          <span class="mc-label">{{ $t('home.finalStockholm') }}</span>
+          <span class="ssm-hero__fact">{{ $t('home.finalDate') }}</span>
         </div>
       </div>
 
-      <a class="btn btn-primary btn-lg" href="https://ctf.sakerhetssm.se/">Till tävlingsplatformen</a>
+      <a class="btn btn-primary btn-lg" href="https://ctf.sakerhetssm.se/">{{ $t('home.toPlatform') }}</a>
     </section>
 
     <div class="row g-4">
       <div class="col-12 col-lg-6">
         <div class="mc-panel">
-          <h2 class="text-primary">Vad är Säkerhets-SM?</h2>
+          <h2 class="text-primary">{{ $t('home.whatIs') }}</h2>
           <p>
-            Har du ett intresse för datorrelaterad problemlösning, eller vill du
-            lära dig vad det egentligen innebär att hacka? Säkerhets-SM är en
-            tävling för gymnasie- och högstadieelever med fokus på att lära ut
-            koncept inom cybersäkerhet och hackning. Tävlingen är skapad för att
-            passa alla kunskapsnivåer, så det spelar ingen roll om du är total
-            nybörjare eller erfaren. Går det riktigt bra får du chansen att bli
-            uttagen till landslaget och åka på EM!
+            {{ $t('home.whatIsText') }}
           </p>
           <p>
             <span class="material-symbols-outlined">azm</span>
-            Bästa lagen går vidare till
-            <a href="https://snht.se/">landslagsuttagningen</a> &
-            <a href="https://ico-official.net/">internationella olympiaden i cybersäkerhet (ICO)</a>
+            {{ $t('home.bestTeams') }}
+            <a href="https://snht.se/">{{ $t('home.nationalSelection') }}</a> &
+            <a href="https://ico-official.net/">{{ $t('home.ico') }}</a>
           </p>
           <p>
-            Joina gärna
-            <a :href="discordUrl">Kodsports Discordserver</a>
-            där du kan nå oss organisatörer, prata med andra deltagare, visa dina
-            egna projekt eller ställa allmänna datorrelaterade frågor. Vi har
-            också en
-            <a href="https://mail.sakerhetssm.se/subscription/form">mailinglista</a>
-            där vi skickar ut uppdateringar om tävlingen.
+            {{ $t('home.joinPrompt') }}
+            <a :href="discordUrl">{{ $t('home.discordServer') }}</a>
+            {{ $t('home.joinPromptMid') }}
+            <a href="https://mail.sakerhetssm.se/subscription/form">{{ $t('home.mailingList') }}</a>
+            {{ $t('home.mailingListEnd') }}
           </p>
 
           <form method="post" action="https://mail.sakerhetssm.se/subscription/form" class="listmonk-form">
@@ -67,27 +59,27 @@
 
             <div class="input-group">
               <input class="form-control" type="email" name="email" required placeholder="E-mail" />
-              <button class="btn btn-outline-primary" type="submit">Prenumerera</button>
+              <button class="btn btn-outline-primary" type="submit">{{ $t('home.subscribe') }}</button>
             </div>
           </form>
 
-          <a class="btn mt-3 ssm-discord" :href="discordUrl">Gå med i Discord!</a>
+          <a class="btn mt-3 ssm-discord" :href="discordUrl">{{ $t('home.joinDiscord') }}</a>
         </div>
       </div>
 
       <div class="col-12 col-lg-6" v-if="monthly.status.value == 'success'">
-        <h2 class="text-primary">Månadens utmaning - {{ monthly.data.value.display_month }}</h2>
+        <h2 class="text-primary">{{ $t('home.monthlyChallenge') }} - {{ monthly.data.value.display_month }}</h2>
         <MonthlyChallenge :chall="monthly.data.value.challenge" />
       </div>
       <div v-else-if="scoreboard.nonUniScores" class="col-12 col-lg-6">
         <div class="mc-panel">
-          <h2 class="text-primary">Poängtavla</h2>
+          <h2 class="text-primary">{{ $t('home.scoreboard') }}</h2>
           <table class="table">
             <thead>
               <tr>
-                <th>Rang</th>
-                <th>Namn</th>
-                <th>Poäng</th>
+                <th>{{ $t('common.rank') }}</th>
+                <th>{{ $t('common.name') }}</th>
+                <th>{{ $t('common.score') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -103,12 +95,12 @@
 
       <div class="col-12">
         <div class="mc-panel text-center">
-          <h3>I samarbete med</h3>
+          <h3>{{ $t('home.inCollabWith') }}</h3>
           <a href="https://www.fra.se/" class="d-inline-block my-4">
             <img class="img-fluid ssm-partner" src="~/assets/fra.png" alt="FRA - Försvarets Radioanstalt" />
           </a>
           <p class="mb-0">
-            Kodsport's infrastructure is sponsored by
+            {{ $t('home.infraSponsored') }}
             <a href="https://glesys.com/">GleSYS</a>
           </p>
         </div>
@@ -130,9 +122,12 @@ const auth = useAuthStore();
 const discordUrl = "https://discord.gg/edKFKKU";
 const mailFormId = "f6b65d3d-5ba1-4da9-8c42-4e3be8b6277f";
 
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 const url = useRequestURL();
 useHead({
-  title: "Säkerhets-SM",
+  title: computed(() => t("home.title")),
   link: {
     rel: "canonical",
     href: `${url.protocol}//${url.host}/`,

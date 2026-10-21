@@ -5,32 +5,32 @@
 
             <div class="row">
                 <div class="col">
-                    <h3>Namn</h3>
-                    <p>Välj hur du syns på poängtavlan</p>
+                    <h3>{{ $t('user.name') }}</h3>
+                    <p>{{ $t('user.nameHint') }}</p>
                     <form @submit.prevent="updateUsername">
 
                         <div class="form-group">
                             <input class="form-control" type="text" v-model="newUsername">
-                            <button class="btn btn-primary mt-2">Uppdatera</button>
+                            <button class="btn btn-primary mt-2">{{ $t('common.update') }}</button>
                         </div>
                     </form>
                 </div>
                 <div class="col">
-                    <h3>Skola</h3>
+                    <h3>{{ $t('user.school') }}</h3>
                     <div v-if="auth.user.school_name">
-                        Du representerar <b class="pe-3"> {{ auth.user.school_name }}</b>
-                        <button class="btn btn-danger" @click="leaveSchool">Lämna</button>
+                        {{ $t('user.represents') }} <b class="pe-3"> {{ auth.user.school_name }}</b>
+                        <button class="btn btn-danger" @click="leaveSchool">{{ $t('common.leave') }}</button>
                     </div>
                     <div v-else>
-                        Pluggar du? Representera din skola på poängtavlan!
+                        {{ $t('user.studyPrompt') }}
                         <input class="form-control" type="text" v-model="schoolQuery" @input="searchSchools"
-                            placeholder="Sök skola">
+                            :placeholder="$t('common.searchSchool')">
                         <ul>
                             <li v-for="school in schools" :key="school.id">{{ school.name }} <span
                                     v-if="!school.is_university">({{ school.municipality_name
                                     }})</span>
                                 <button class="btn btn-primary btn-xs mt-1 ms-2"
-                                    @click="joinSchool(school.id)">Representera</button>
+                                    @click="joinSchool(school.id)">{{ $t('common.represent') }}</button>
                             </li>
                         </ul>
                     </div>

@@ -4,24 +4,24 @@
         <div v-html="renderMarkdown(courseMeta.description)"></div>
         <div class="d-flex justify-content-center pt-5">
             <button v-if="!courseMeta.enrolled" class="btn btn-primary" @click="enroll()" :disabled="!auth.isAuthed">
-                Påbörja kurs
+                {{ $t('courses.startCourse') }}
             </button>
             <button v-else class="btn btn-primary"
                 @click="router.push(`/courses/${courseMeta.slug}/${challenges[0].slug}`)">
-                Visa kurs
+                {{ $t('courses.viewCourse') }}
             </button>
         </div>
         <div class="my-5 border-top">
         </div>
         <div>
-            <h1>Kursinnehåll</h1>
+            <h1>{{ $t('common.content') }}</h1>
 
             <table class="table table-striped table-dark">
                 <thead>
                     <tr>
-                        <th>Moment</th>
-                        <th>Utmaning</th>
-                        <th>Poäng</th>
+                        <th>{{ $t('courses.section') }}</th>
+                        <th>{{ $t('courses.challenge') }}</th>
+                        <th>{{ $t('common.score') }}</th>
                     </tr>
                 </thead>
                 <tbody>
