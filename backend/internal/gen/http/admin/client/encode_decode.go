@@ -5429,6 +5429,246 @@ func DecodeUpdateUserRoleResponse(decoder func(*http.Response) goahttp.Decoder, 
 	}
 }
 
+// BuildDeleteUserSolveRequest instantiates a HTTP request object with method
+// and path set to call the "admin" service "DeleteUserSolve" endpoint
+func (c *Client) BuildDeleteUserSolveRequest(ctx context.Context, v interface{}) (*http.Request, error) {
+	var (
+		userID      string
+		challengeID string
+	)
+	{
+		p, ok := v.(*admin.DeleteUserSolvePayload)
+		if !ok {
+			return nil, goahttp.ErrInvalidType("admin", "DeleteUserSolve", "*admin.DeleteUserSolvePayload", v)
+		}
+		userID = p.UserID
+		challengeID = p.ChallengeID
+	}
+	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: DeleteUserSolveAdminPath(userID, challengeID)}
+	req, err := http.NewRequest("DELETE", u.String(), nil)
+	if err != nil {
+		return nil, goahttp.ErrInvalidURL("admin", "DeleteUserSolve", u.String(), err)
+	}
+	if ctx != nil {
+		req = req.WithContext(ctx)
+	}
+
+	return req, nil
+}
+
+// EncodeDeleteUserSolveRequest returns an encoder for requests sent to the
+// admin DeleteUserSolve server.
+func EncodeDeleteUserSolveRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, interface{}) error {
+	return func(req *http.Request, v interface{}) error {
+		p, ok := v.(*admin.DeleteUserSolvePayload)
+		if !ok {
+			return goahttp.ErrInvalidType("admin", "DeleteUserSolve", "*admin.DeleteUserSolvePayload", v)
+		}
+		{
+			head := p.Token
+			if !strings.Contains(head, " ") {
+				req.Header.Set("Authorization", "Bearer "+head)
+			} else {
+				req.Header.Set("Authorization", head)
+			}
+		}
+		return nil
+	}
+}
+
+// DecodeDeleteUserSolveResponse returns a decoder for responses returned by
+// the admin DeleteUserSolve endpoint. restoreBody controls whether the
+// response body should be restored after having been read.
+// DecodeDeleteUserSolveResponse may return the following errors:
+//   - "unauthorized" (type *goa.ServiceError): http.StatusForbidden
+//   - "not_found" (type *goa.ServiceError): http.StatusNotFound
+//   - "bad_request" (type *goa.ServiceError): http.StatusBadRequest
+//   - error: internal error
+func DecodeDeleteUserSolveResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (interface{}, error) {
+	return func(resp *http.Response) (interface{}, error) {
+		if restoreBody {
+			b, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				return nil, err
+			}
+			resp.Body = ioutil.NopCloser(bytes.NewBuffer(b))
+			defer func() {
+				resp.Body = ioutil.NopCloser(bytes.NewBuffer(b))
+			}()
+		} else {
+			defer resp.Body.Close()
+		}
+		switch resp.StatusCode {
+		case http.StatusOK:
+			return nil, nil
+		case http.StatusForbidden:
+			var (
+				body DeleteUserSolveUnauthorizedResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("admin", "DeleteUserSolve", err)
+			}
+			err = ValidateDeleteUserSolveUnauthorizedResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("admin", "DeleteUserSolve", err)
+			}
+			return nil, NewDeleteUserSolveUnauthorized(&body)
+		case http.StatusNotFound:
+			var (
+				body DeleteUserSolveNotFoundResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("admin", "DeleteUserSolve", err)
+			}
+			err = ValidateDeleteUserSolveNotFoundResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("admin", "DeleteUserSolve", err)
+			}
+			return nil, NewDeleteUserSolveNotFound(&body)
+		case http.StatusBadRequest:
+			var (
+				body DeleteUserSolveBadRequestResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("admin", "DeleteUserSolve", err)
+			}
+			err = ValidateDeleteUserSolveBadRequestResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("admin", "DeleteUserSolve", err)
+			}
+			return nil, NewDeleteUserSolveBadRequest(&body)
+		default:
+			body, _ := ioutil.ReadAll(resp.Body)
+			return nil, goahttp.ErrInvalidResponse("admin", "DeleteUserSolve", resp.StatusCode, string(body))
+		}
+	}
+}
+
+// BuildDeleteUserSolvesRequest instantiates a HTTP request object with method
+// and path set to call the "admin" service "DeleteUserSolves" endpoint
+func (c *Client) BuildDeleteUserSolvesRequest(ctx context.Context, v interface{}) (*http.Request, error) {
+	var (
+		userID string
+	)
+	{
+		p, ok := v.(*admin.DeleteUserSolvesPayload)
+		if !ok {
+			return nil, goahttp.ErrInvalidType("admin", "DeleteUserSolves", "*admin.DeleteUserSolvesPayload", v)
+		}
+		userID = p.UserID
+	}
+	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: DeleteUserSolvesAdminPath(userID)}
+	req, err := http.NewRequest("DELETE", u.String(), nil)
+	if err != nil {
+		return nil, goahttp.ErrInvalidURL("admin", "DeleteUserSolves", u.String(), err)
+	}
+	if ctx != nil {
+		req = req.WithContext(ctx)
+	}
+
+	return req, nil
+}
+
+// EncodeDeleteUserSolvesRequest returns an encoder for requests sent to the
+// admin DeleteUserSolves server.
+func EncodeDeleteUserSolvesRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, interface{}) error {
+	return func(req *http.Request, v interface{}) error {
+		p, ok := v.(*admin.DeleteUserSolvesPayload)
+		if !ok {
+			return goahttp.ErrInvalidType("admin", "DeleteUserSolves", "*admin.DeleteUserSolvesPayload", v)
+		}
+		{
+			head := p.Token
+			if !strings.Contains(head, " ") {
+				req.Header.Set("Authorization", "Bearer "+head)
+			} else {
+				req.Header.Set("Authorization", head)
+			}
+		}
+		return nil
+	}
+}
+
+// DecodeDeleteUserSolvesResponse returns a decoder for responses returned by
+// the admin DeleteUserSolves endpoint. restoreBody controls whether the
+// response body should be restored after having been read.
+// DecodeDeleteUserSolvesResponse may return the following errors:
+//   - "unauthorized" (type *goa.ServiceError): http.StatusForbidden
+//   - "not_found" (type *goa.ServiceError): http.StatusNotFound
+//   - "bad_request" (type *goa.ServiceError): http.StatusBadRequest
+//   - error: internal error
+func DecodeDeleteUserSolvesResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (interface{}, error) {
+	return func(resp *http.Response) (interface{}, error) {
+		if restoreBody {
+			b, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				return nil, err
+			}
+			resp.Body = ioutil.NopCloser(bytes.NewBuffer(b))
+			defer func() {
+				resp.Body = ioutil.NopCloser(bytes.NewBuffer(b))
+			}()
+		} else {
+			defer resp.Body.Close()
+		}
+		switch resp.StatusCode {
+		case http.StatusOK:
+			return nil, nil
+		case http.StatusForbidden:
+			var (
+				body DeleteUserSolvesUnauthorizedResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("admin", "DeleteUserSolves", err)
+			}
+			err = ValidateDeleteUserSolvesUnauthorizedResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("admin", "DeleteUserSolves", err)
+			}
+			return nil, NewDeleteUserSolvesUnauthorized(&body)
+		case http.StatusNotFound:
+			var (
+				body DeleteUserSolvesNotFoundResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("admin", "DeleteUserSolves", err)
+			}
+			err = ValidateDeleteUserSolvesNotFoundResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("admin", "DeleteUserSolves", err)
+			}
+			return nil, NewDeleteUserSolvesNotFound(&body)
+		case http.StatusBadRequest:
+			var (
+				body DeleteUserSolvesBadRequestResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("admin", "DeleteUserSolves", err)
+			}
+			err = ValidateDeleteUserSolvesBadRequestResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("admin", "DeleteUserSolves", err)
+			}
+			return nil, NewDeleteUserSolvesBadRequest(&body)
+		default:
+			body, _ := ioutil.ReadAll(resp.Body)
+			return nil, goahttp.ErrInvalidResponse("admin", "DeleteUserSolves", resp.StatusCode, string(body))
+		}
+	}
+}
+
 // unmarshalSsmAdminChallengeResponseToAdminviewsSsmAdminChallengeView builds a
 // value of type *adminviews.SsmAdminChallengeView from a value of type
 // *SsmAdminChallengeResponse.

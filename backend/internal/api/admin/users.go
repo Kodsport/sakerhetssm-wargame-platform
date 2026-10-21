@@ -4,12 +4,14 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"math"
 	"net/http"
 	"os"
 	"sort"
 
+	"github.com/sakerhetsm/ssm-wargame/internal/auth"
 	spec "github.com/sakerhetsm/ssm-wargame/internal/gen/admin"
 	"github.com/sakerhetsm/ssm-wargame/internal/models"
 	"github.com/sakerhetsm/ssm-wargame/internal/utils"
@@ -129,6 +131,19 @@ func (s *service) GetUserDetails(ctx context.Context, req *spec.GetUserDetailsPa
 		return nil, err
 	}
 
+	solves, err := models.UserSolves(
+		models.UserSolfWhere.UserID.EQ(user.ID),
+	).All(ctx, s.db)
+	if err != nil {
+		s.log.Error("could not get user solves", zap.Error(err), utils.C(ctx))
+		return nil, err
+	}
+
+	solvedMap := make(map[string]bool, len(solves))
+	for _, solve := range solves {
+		solvedMap[solve.ChallengeID] = true
+	}
+
 	var successful, failed int
 	hourlyActivity := make([]int, 24)
 	challengeSubmissionsMap := make(map[string]*spec.ChallengeSubmissionsGroup)
@@ -152,7 +167,7 @@ func (s *service) GetUserDetails(ctx context.Context, req *spec.GetUserDetailsPa
 				ChallengeID:    submission.ChallengeID,
 				ChallengeTitle: challenge.Title,
 				ChallengeSlug:  challenge.Slug,
-				Solved:         false,
+				Solved:         solvedMap[submission.ChallengeID],
 				Submissions:    []*spec.ChallengeSubmission{},
 			}
 		}
@@ -167,9 +182,6 @@ func (s *service) GetUserDetails(ctx context.Context, req *spec.GetUserDetailsPa
 				SubmittedAt: submission.CreatedAt.Unix(),
 			},
 		)
-		if submission.Successful {
-			challengeSubmissionsMap[submission.ChallengeID].Solved = true
-		}
 	}
 
 	// slicey slicey
@@ -260,4 +272,83 @@ func (s *service) UpdateUserRole(ctx context.Context, req *spec.UpdateUserRolePa
 		utils.C(ctx))
 
 	return nil
+}
+
+func (s *service) DeleteUserSolve(ctx context.Context, req *spec.DeleteUserSolvePayload) error {
+	n, err := s.deleteUserSolves(ctx, req.UserID, &req.ChallengeID)
+	if err != nil {
+		return err
+	}
+	if n == 0 {
+		return spec.MakeNotFound(fmt.Errorf("user has not solved this challenge"))
+	}
+
+	s.log.Info("user solve removed",
+		zap.String("user_id", req.UserID),
+		zap.String("challenge_id", req.ChallengeID),
+		utils.C(ctx))
+
+	return nil
+}
+
+func (s *service) DeleteUserSolves(ctx context.Context, req *spec.DeleteUserSolvesPayload) error {
+	n, err := s.deleteUserSolves(ctx, req.UserID, nil)
+	if err != nil {
+		return err
+	}
+
+	s.log.Info("all user solves removed",
+		zap.String("user_id", req.UserID),
+		zap.Int64("solves", n),
+		utils.C(ctx))
+
+	return nil
+}
+
+// tar bort user_solves och school_solves, för en chall eller alla om challengeID är nil
+func (s *service) deleteUserSolves(ctx context.Context, userID string, challengeID *string) (int64, error) {
+	if !auth.HasRole(ctx, "admin") {
+		return 0, spec.MakeUnauthorized(errors.New("only admins can remove solves"))
+	}
+
+	exists, err := models.Users(models.UserWhere.ID.EQ(userID)).Exists(ctx, s.db)
+	if err != nil {
+		s.log.Error("could not check user exists", zap.Error(err), utils.C(ctx))
+		return 0, err
+	}
+	if !exists {
+		return 0, spec.MakeNotFound(fmt.Errorf("user not found"))
+	}
+
+	tx, err := s.db.BeginTx(ctx, &sql.TxOptions{})
+	if err != nil {
+		return 0, err
+	}
+	defer tx.Rollback() //nolint:errcheck
+
+	userMods := []qm.QueryMod{models.UserSolfWhere.UserID.EQ(userID)}
+	schoolMods := []qm.QueryMod{models.SchoolSolfWhere.UserID.EQ(userID)}
+	if challengeID != nil {
+		userMods = append(userMods, models.UserSolfWhere.ChallengeID.EQ(*challengeID))
+		schoolMods = append(schoolMods, models.SchoolSolfWhere.ChallengeID.EQ(*challengeID))
+	}
+
+	n, err := models.UserSolves(userMods...).DeleteAll(ctx, tx)
+	if err != nil {
+		s.log.Error("could not delete user solves", zap.Error(err), utils.C(ctx))
+		return 0, err
+	}
+
+	_, err = models.SchoolSolves(schoolMods...).DeleteAll(ctx, tx)
+	if err != nil {
+		s.log.Error("could not delete school solves", zap.Error(err), utils.C(ctx))
+		return 0, err
+	}
+
+	if err := tx.Commit(); err != nil {
+		s.log.Error("could not commit", zap.Error(err), utils.C(ctx))
+		return 0, err
+	}
+
+	return n, nil
 }

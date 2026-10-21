@@ -48,6 +48,16 @@
             Öppna Discord Profil
           </button>
         </div>
+        <div v-if="isAdmin" class="mb-4">
+          <button
+            class="btn btn-danger"
+            type="button"
+            :disabled="removingSolves || solvedCount === 0"
+            @click="removeAllSolves"
+          >
+            Remove all solves ({{ solvedCount }})
+          </button>
+        </div>
       </div>
       <div class="col-md-6 d-flex justify-content-end gap-4">
         <div v-if="submissionStats.total > 0" class="text-center">
@@ -154,7 +164,19 @@
       :key="challenge.challenge_id"
       class="mb-5 challenge-section"
     >
-      <h1>{{ challenge.challenge_title }}</h1>
+      <div class="d-flex align-items-center gap-3 flex-wrap">
+        <h1 class="mb-0">{{ challenge.challenge_title }}</h1>
+        <span v-if="challenge.solved" class="badge bg-success">Solved</span>
+        <button
+          v-if="isAdmin && challenge.solved"
+          class="btn btn-sm btn-outline-danger"
+          type="button"
+          :disabled="removingSolves"
+          @click="removeSolve(challenge)"
+        >
+          Remove solve
+        </button>
+      </div>
       <div>
         <div class="table-responsive">
           <table v-if="challenge.submissions.length" class="table">
@@ -218,9 +240,11 @@
 
 <script setup lang="ts">
 import { onMounted, ref, computed } from "vue";
+import { useAuthStore } from "~/store/auth";
 
 const http = useHttp();
 const route = useRoute();
+const authStore = useAuthStore();
 
 const userId = route.params.id as string;
 const userDetails = ref<any>(null);
@@ -228,6 +252,10 @@ const basicUserInfo = ref<any>(null);
 const loading = ref(true);
 const avatarError = ref(false);
 const updatingRole = ref(false);
+const removingSolves = ref(false);
+
+// backend only lets admins remove solves
+const isAdmin = computed(() => authStore.user?.role === "admin");
 
 const user = computed(() => ({
   // Basic info from users API
@@ -264,6 +292,10 @@ const onAvatarError = () => {
 
 const challengeSubmissions = computed(() => {
   return userDetails.value?.challenge_submissions || [];
+});
+
+const solvedCount = computed(() => {
+  return challengeSubmissions.value.filter((c: any) => c.solved).length;
 });
 
 const submissionStats = computed(() => {
@@ -382,6 +414,52 @@ const updateUserRole = async (newRole: string) => {
     await fetchBasicUserInfo();
   } finally {
     updatingRole.value = false;
+  }
+};
+
+const fetchUserDetails = async () => {
+  userDetails.value = await http(`/admin/users/${userId}/details`);
+};
+
+const removeSolve = async (challenge: any) => {
+  if (
+    !confirm(
+      `Remove ${user.value?.full_name}'s solve of "${challenge.challenge_title}"?`
+    )
+  )
+    return;
+
+  try {
+    removingSolves.value = true;
+    await http(`/admin/users/${userId}/solves/${challenge.challenge_id}`, {
+      method: "DELETE",
+    });
+    await fetchUserDetails();
+  } catch (error) {
+    console.error("Failed to remove solve:", error);
+    alert("Failed to remove solve. Please try again.");
+  } finally {
+    removingSolves.value = false;
+  }
+};
+
+const removeAllSolves = async () => {
+  if (
+    !confirm(
+      `Remove ALL solves for ${user.value?.full_name}? This cannot be undone.`
+    )
+  )
+    return;
+
+  try {
+    removingSolves.value = true;
+    await http(`/admin/users/${userId}/solves`, { method: "DELETE" });
+    await fetchUserDetails();
+  } catch (error) {
+    console.error("Failed to remove solves:", error);
+    alert("Failed to remove solves. Please try again.");
+  } finally {
+    removingSolves.value = false;
   }
 };
 

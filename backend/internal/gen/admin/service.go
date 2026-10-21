@@ -75,7 +75,7 @@ type Service interface {
 	DeleteCTF(context.Context, *DeleteCTFPayload) (err error)
 	// ListCTFs implements ListCTFs.
 	ListCTFs(context.Context, *ListCTFsPayload) (res []*CTF, err error)
-	// Get live scoreboard bypassing freeze (admin only)
+	// Visa scoreboard som bypassar freeze
 	AdminScoreboard(context.Context, *AdminScoreboardPayload) (res []*CTFScore, err error)
 	// CreateChallengeGroup implements CreateChallengeGroup.
 	CreateChallengeGroup(context.Context, *CreateChallengeGroupPayload) (res *ChallengeGroup, err error)
@@ -103,6 +103,10 @@ type Service interface {
 	GetUserDetails(context.Context, *GetUserDetailsPayload) (res *SsmAdminUserdetails, err error)
 	// Update a user's role
 	UpdateUserRole(context.Context, *UpdateUserRolePayload) (err error)
+	// Remove a user's solve (and their school's solve) of a wargame challenge
+	DeleteUserSolve(context.Context, *DeleteUserSolvePayload) (err error)
+	// Remove all of a user's wargame solves (and their school's solves)
+	DeleteUserSolves(context.Context, *DeleteUserSolvesPayload) (err error)
 }
 
 // Auther defines the authorization functions to be implemented by the service.
@@ -119,7 +123,7 @@ const ServiceName = "admin"
 // MethodNames lists the service method names as defined in the design. These
 // are the same values that are set in the endpoint request contexts under the
 // MethodKey key.
-var MethodNames = [43]string{"ListChallenges", "GetChallengeMeta", "CreateChallenge", "PresignChallFileUpload", "ListMonthlyChallenges", "DeleteMonthlyChallenge", "DeleteFile", "CreateMonthlyChallenge", "ListUsers", "GetDiscordUser", "ListAuthors", "UpdateAuthor", "CreateAuthor", "DeleteAuthor", "AddFlag", "DeleteFlag", "ListCategories", "ChalltoolsImport", "ListCTFEvents", "CreateCTFEvent", "DeleteCTFEvent", "CreateCTFEventImportToken", "ListCourses", "CreateCourse", "UpdateCourse", "CreateCTF", "UpdateCTF", "DeleteCTF", "ListCTFs", "AdminScoreboard", "CreateChallengeGroup", "UpdateChallengeGroup", "DeleteChallengeGroup", "ListChallengeGroups", "ListCTFUsers", "DeleteCTFUser", "UpdateCTFUser", "ListCTFTeams", "CreateCTFTeam", "DeleteCTFTeam", "UpdateCTFTeam", "GetUserDetails", "UpdateUserRole"}
+var MethodNames = [45]string{"ListChallenges", "GetChallengeMeta", "CreateChallenge", "PresignChallFileUpload", "ListMonthlyChallenges", "DeleteMonthlyChallenge", "DeleteFile", "CreateMonthlyChallenge", "ListUsers", "GetDiscordUser", "ListAuthors", "UpdateAuthor", "CreateAuthor", "DeleteAuthor", "AddFlag", "DeleteFlag", "ListCategories", "ChalltoolsImport", "ListCTFEvents", "CreateCTFEvent", "DeleteCTFEvent", "CreateCTFEventImportToken", "ListCourses", "CreateCourse", "UpdateCourse", "CreateCTF", "UpdateCTF", "DeleteCTF", "ListCTFs", "AdminScoreboard", "CreateChallengeGroup", "UpdateChallengeGroup", "DeleteChallengeGroup", "ListChallengeGroups", "ListCTFUsers", "DeleteCTFUser", "UpdateCTFUser", "ListCTFTeams", "CreateCTFTeam", "DeleteCTFTeam", "UpdateCTFTeam", "GetUserDetails", "UpdateUserRole", "DeleteUserSolve", "DeleteUserSolves"}
 
 // ListChallengesPayload is the payload type of the admin service
 // ListChallenges method.
@@ -653,6 +657,24 @@ type UpdateUserRolePayload struct {
 	// New role for the user
 	Role  string
 	Token string
+}
+
+// DeleteUserSolvePayload is the payload type of the admin service
+// DeleteUserSolve method.
+type DeleteUserSolvePayload struct {
+	// User ID
+	UserID string
+	Token  string
+	// ID of a challenge
+	ChallengeID string
+}
+
+// DeleteUserSolvesPayload is the payload type of the admin service
+// DeleteUserSolves method.
+type DeleteUserSolvesPayload struct {
+	// User ID
+	UserID string
+	Token  string
 }
 
 // A Wargame challenge

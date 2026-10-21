@@ -546,4 +546,31 @@ var _ = Service("admin", func() {
 			Response(StatusOK)
 		})
 	})
+
+	Method("DeleteUserSolve", func() {
+		Description("Remove a user's solve (and their school's solve) of a wargame challenge")
+		Payload(func() {
+			Extend(TokenPayload)
+			Extend(ChallengeIDArtifact)
+			Attribute("user_id", String, "User ID")
+			Required("user_id")
+		})
+		HTTP(func() {
+			DELETE("/users/{user_id}/solves/{challenge_id}")
+			Response(StatusOK)
+		})
+	})
+
+	Method("DeleteUserSolves", func() {
+		Description("Remove all of a user's wargame solves (and their school's solves)")
+		Payload(func() {
+			Extend(TokenPayload)
+			Attribute("user_id", String, "User ID")
+			Required("user_id")
+		})
+		HTTP(func() {
+			DELETE("/users/{user_id}/solves")
+			Response(StatusOK)
+		})
+	})
 })

@@ -62,6 +62,8 @@ type Server struct {
 	UpdateCTFTeam             http.Handler
 	GetUserDetails            http.Handler
 	UpdateUserRole            http.Handler
+	DeleteUserSolve           http.Handler
+	DeleteUserSolves          http.Handler
 }
 
 // ErrorNamer is an interface implemented by generated error structs that
@@ -140,6 +142,8 @@ func New(
 			{"UpdateCTFTeam", "PATCH", "/admin/ctfs/{ctf_id}/teams/{team_id}"},
 			{"GetUserDetails", "GET", "/admin/users/{user_id}/details"},
 			{"UpdateUserRole", "PATCH", "/admin/users/{user_id}/role"},
+			{"DeleteUserSolve", "DELETE", "/admin/users/{user_id}/solves/{challenge_id}"},
+			{"DeleteUserSolves", "DELETE", "/admin/users/{user_id}/solves"},
 		},
 		ListChallenges:            NewListChallengesHandler(e.ListChallenges, mux, decoder, encoder, errhandler, formatter),
 		GetChallengeMeta:          NewGetChallengeMetaHandler(e.GetChallengeMeta, mux, decoder, encoder, errhandler, formatter),
@@ -184,6 +188,8 @@ func New(
 		UpdateCTFTeam:             NewUpdateCTFTeamHandler(e.UpdateCTFTeam, mux, decoder, encoder, errhandler, formatter),
 		GetUserDetails:            NewGetUserDetailsHandler(e.GetUserDetails, mux, decoder, encoder, errhandler, formatter),
 		UpdateUserRole:            NewUpdateUserRoleHandler(e.UpdateUserRole, mux, decoder, encoder, errhandler, formatter),
+		DeleteUserSolve:           NewDeleteUserSolveHandler(e.DeleteUserSolve, mux, decoder, encoder, errhandler, formatter),
+		DeleteUserSolves:          NewDeleteUserSolvesHandler(e.DeleteUserSolves, mux, decoder, encoder, errhandler, formatter),
 	}
 }
 
@@ -235,6 +241,8 @@ func (s *Server) Use(m func(http.Handler) http.Handler) {
 	s.UpdateCTFTeam = m(s.UpdateCTFTeam)
 	s.GetUserDetails = m(s.GetUserDetails)
 	s.UpdateUserRole = m(s.UpdateUserRole)
+	s.DeleteUserSolve = m(s.DeleteUserSolve)
+	s.DeleteUserSolves = m(s.DeleteUserSolves)
 }
 
 // Mount configures the mux to serve the admin endpoints.
@@ -282,6 +290,8 @@ func Mount(mux goahttp.Muxer, h *Server) {
 	MountUpdateCTFTeamHandler(mux, h.UpdateCTFTeam)
 	MountGetUserDetailsHandler(mux, h.GetUserDetails)
 	MountUpdateUserRoleHandler(mux, h.UpdateUserRole)
+	MountDeleteUserSolveHandler(mux, h.DeleteUserSolve)
+	MountDeleteUserSolvesHandler(mux, h.DeleteUserSolves)
 }
 
 // MountListChallengesHandler configures the mux to serve the "admin" service
@@ -2457,6 +2467,108 @@ func NewUpdateUserRoleHandler(
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.WithValue(r.Context(), goahttp.AcceptTypeKey, r.Header.Get("Accept"))
 		ctx = context.WithValue(ctx, goa.MethodKey, "UpdateUserRole")
+		ctx = context.WithValue(ctx, goa.ServiceKey, "admin")
+		payload, err := decodeRequest(r)
+		if err != nil {
+			if err := encodeError(ctx, w, err); err != nil {
+				errhandler(ctx, w, err)
+			}
+			return
+		}
+		res, err := endpoint(ctx, payload)
+		if err != nil {
+			if err := encodeError(ctx, w, err); err != nil {
+				errhandler(ctx, w, err)
+			}
+			return
+		}
+		if err := encodeResponse(ctx, w, res); err != nil {
+			errhandler(ctx, w, err)
+		}
+	})
+}
+
+// MountDeleteUserSolveHandler configures the mux to serve the "admin" service
+// "DeleteUserSolve" endpoint.
+func MountDeleteUserSolveHandler(mux goahttp.Muxer, h http.Handler) {
+	f, ok := h.(http.HandlerFunc)
+	if !ok {
+		f = func(w http.ResponseWriter, r *http.Request) {
+			h.ServeHTTP(w, r)
+		}
+	}
+	mux.Handle("DELETE", "/admin/users/{user_id}/solves/{challenge_id}", f)
+}
+
+// NewDeleteUserSolveHandler creates a HTTP handler which loads the HTTP
+// request and calls the "admin" service "DeleteUserSolve" endpoint.
+func NewDeleteUserSolveHandler(
+	endpoint goa.Endpoint,
+	mux goahttp.Muxer,
+	decoder func(*http.Request) goahttp.Decoder,
+	encoder func(context.Context, http.ResponseWriter) goahttp.Encoder,
+	errhandler func(context.Context, http.ResponseWriter, error),
+	formatter func(err error) goahttp.Statuser,
+) http.Handler {
+	var (
+		decodeRequest  = DecodeDeleteUserSolveRequest(mux, decoder)
+		encodeResponse = EncodeDeleteUserSolveResponse(encoder)
+		encodeError    = EncodeDeleteUserSolveError(encoder, formatter)
+	)
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ctx := context.WithValue(r.Context(), goahttp.AcceptTypeKey, r.Header.Get("Accept"))
+		ctx = context.WithValue(ctx, goa.MethodKey, "DeleteUserSolve")
+		ctx = context.WithValue(ctx, goa.ServiceKey, "admin")
+		payload, err := decodeRequest(r)
+		if err != nil {
+			if err := encodeError(ctx, w, err); err != nil {
+				errhandler(ctx, w, err)
+			}
+			return
+		}
+		res, err := endpoint(ctx, payload)
+		if err != nil {
+			if err := encodeError(ctx, w, err); err != nil {
+				errhandler(ctx, w, err)
+			}
+			return
+		}
+		if err := encodeResponse(ctx, w, res); err != nil {
+			errhandler(ctx, w, err)
+		}
+	})
+}
+
+// MountDeleteUserSolvesHandler configures the mux to serve the "admin" service
+// "DeleteUserSolves" endpoint.
+func MountDeleteUserSolvesHandler(mux goahttp.Muxer, h http.Handler) {
+	f, ok := h.(http.HandlerFunc)
+	if !ok {
+		f = func(w http.ResponseWriter, r *http.Request) {
+			h.ServeHTTP(w, r)
+		}
+	}
+	mux.Handle("DELETE", "/admin/users/{user_id}/solves", f)
+}
+
+// NewDeleteUserSolvesHandler creates a HTTP handler which loads the HTTP
+// request and calls the "admin" service "DeleteUserSolves" endpoint.
+func NewDeleteUserSolvesHandler(
+	endpoint goa.Endpoint,
+	mux goahttp.Muxer,
+	decoder func(*http.Request) goahttp.Decoder,
+	encoder func(context.Context, http.ResponseWriter) goahttp.Encoder,
+	errhandler func(context.Context, http.ResponseWriter, error),
+	formatter func(err error) goahttp.Statuser,
+) http.Handler {
+	var (
+		decodeRequest  = DecodeDeleteUserSolvesRequest(mux, decoder)
+		encodeResponse = EncodeDeleteUserSolvesResponse(encoder)
+		encodeError    = EncodeDeleteUserSolvesError(encoder, formatter)
+	)
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ctx := context.WithValue(r.Context(), goahttp.AcceptTypeKey, r.Header.Get("Accept"))
+		ctx = context.WithValue(ctx, goa.MethodKey, "DeleteUserSolves")
 		ctx = context.WithValue(ctx, goa.ServiceKey, "admin")
 		payload, err := decodeRequest(r)
 		if err != nil {

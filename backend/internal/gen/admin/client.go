@@ -58,10 +58,12 @@ type Client struct {
 	UpdateCTFTeamEndpoint             goa.Endpoint
 	GetUserDetailsEndpoint            goa.Endpoint
 	UpdateUserRoleEndpoint            goa.Endpoint
+	DeleteUserSolveEndpoint           goa.Endpoint
+	DeleteUserSolvesEndpoint          goa.Endpoint
 }
 
 // NewClient initializes a "admin" service client given the endpoints.
-func NewClient(listChallenges, getChallengeMeta, createChallenge, presignChallFileUpload, listMonthlyChallenges, deleteMonthlyChallenge, deleteFile, createMonthlyChallenge, listUsers, getDiscordUser, listAuthors, updateAuthor, createAuthor, deleteAuthor, addFlag, deleteFlag, listCategories, challtoolsImport, listCTFEvents, createCTFEvent, deleteCTFEvent, createCTFEventImportToken, listCourses, createCourse, updateCourse, createCTF, updateCTF, deleteCTF, listCTFs, adminScoreboard, createChallengeGroup, updateChallengeGroup, deleteChallengeGroup, listChallengeGroups, listCTFUsers, deleteCTFUser, updateCTFUser, listCTFTeams, createCTFTeam, deleteCTFTeam, updateCTFTeam, getUserDetails, updateUserRole goa.Endpoint) *Client {
+func NewClient(listChallenges, getChallengeMeta, createChallenge, presignChallFileUpload, listMonthlyChallenges, deleteMonthlyChallenge, deleteFile, createMonthlyChallenge, listUsers, getDiscordUser, listAuthors, updateAuthor, createAuthor, deleteAuthor, addFlag, deleteFlag, listCategories, challtoolsImport, listCTFEvents, createCTFEvent, deleteCTFEvent, createCTFEventImportToken, listCourses, createCourse, updateCourse, createCTF, updateCTF, deleteCTF, listCTFs, adminScoreboard, createChallengeGroup, updateChallengeGroup, deleteChallengeGroup, listChallengeGroups, listCTFUsers, deleteCTFUser, updateCTFUser, listCTFTeams, createCTFTeam, deleteCTFTeam, updateCTFTeam, getUserDetails, updateUserRole, deleteUserSolve, deleteUserSolves goa.Endpoint) *Client {
 	return &Client{
 		ListChallengesEndpoint:            listChallenges,
 		GetChallengeMetaEndpoint:          getChallengeMeta,
@@ -106,6 +108,8 @@ func NewClient(listChallenges, getChallengeMeta, createChallenge, presignChallFi
 		UpdateCTFTeamEndpoint:             updateCTFTeam,
 		GetUserDetailsEndpoint:            getUserDetails,
 		UpdateUserRoleEndpoint:            updateUserRole,
+		DeleteUserSolveEndpoint:           deleteUserSolve,
+		DeleteUserSolvesEndpoint:          deleteUserSolves,
 	}
 }
 
@@ -471,5 +475,18 @@ func (c *Client) GetUserDetails(ctx context.Context, p *GetUserDetailsPayload) (
 // UpdateUserRole calls the "UpdateUserRole" endpoint of the "admin" service.
 func (c *Client) UpdateUserRole(ctx context.Context, p *UpdateUserRolePayload) (err error) {
 	_, err = c.UpdateUserRoleEndpoint(ctx, p)
+	return
+}
+
+// DeleteUserSolve calls the "DeleteUserSolve" endpoint of the "admin" service.
+func (c *Client) DeleteUserSolve(ctx context.Context, p *DeleteUserSolvePayload) (err error) {
+	_, err = c.DeleteUserSolveEndpoint(ctx, p)
+	return
+}
+
+// DeleteUserSolves calls the "DeleteUserSolves" endpoint of the "admin"
+// service.
+func (c *Client) DeleteUserSolves(ctx context.Context, p *DeleteUserSolvesPayload) (err error) {
+	_, err = c.DeleteUserSolvesEndpoint(ctx, p)
 	return
 }

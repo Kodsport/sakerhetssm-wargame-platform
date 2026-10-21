@@ -225,3 +225,13 @@ func GetUserDetailsAdminPath(userID string) string {
 func UpdateUserRoleAdminPath(userID string) string {
 	return fmt.Sprintf("/admin/users/%v/role", userID)
 }
+
+// DeleteUserSolveAdminPath returns the URL path to the admin service DeleteUserSolve HTTP endpoint.
+func DeleteUserSolveAdminPath(userID string, challengeID string) string {
+	return fmt.Sprintf("/admin/users/%v/solves/%v", userID, challengeID)
+}
+
+// DeleteUserSolvesAdminPath returns the URL path to the admin service DeleteUserSolves HTTP endpoint.
+func DeleteUserSolvesAdminPath(userID string) string {
+	return fmt.Sprintf("/admin/users/%v/solves", userID)
+}

@@ -1231,7 +1231,7 @@ paths:
       tags:
       - admin
       summary: AdminScoreboard admin
-      description: Get live scoreboard bypassing freeze (admin only)
+      description: Visa scoreboard som bypassar freeze
       operationId: admin#AdminScoreboard
       parameters:
       - name: slug
@@ -1710,6 +1710,84 @@ paths:
           description: Resource not found
           schema:
             $ref: '#/definitions/AdminUpdateUserRoleNotFoundResponseBody'
+      schemes:
+      - http
+      security:
+      - jwt_header_Authorization: []
+  /admin/users/{user_id}/solves:
+    delete:
+      tags:
+      - admin
+      summary: DeleteUserSolves admin
+      description: Remove all of a user's wargame solves (and their school's solves)
+      operationId: admin#DeleteUserSolves
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        type: string
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK response.
+        "400":
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/AdminDeleteUserSolvesBadRequestResponseBody'
+        "403":
+          description: When the user does not have the required role
+          schema:
+            $ref: '#/definitions/AdminDeleteUserSolvesUnauthorizedResponseBody'
+        "404":
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/AdminDeleteUserSolvesNotFoundResponseBody'
+      schemes:
+      - http
+      security:
+      - jwt_header_Authorization: []
+  /admin/users/{user_id}/solves/{challenge_id}:
+    delete:
+      tags:
+      - admin
+      summary: DeleteUserSolve admin
+      description: Remove a user's solve (and their school's solve) of a wargame challenge
+      operationId: admin#DeleteUserSolve
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        type: string
+      - name: challenge_id
+        in: path
+        description: ID of a challenge
+        required: true
+        type: string
+        format: uuid
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK response.
+        "400":
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/AdminDeleteUserSolveBadRequestResponseBody'
+        "403":
+          description: When the user does not have the required role
+          schema:
+            $ref: '#/definitions/AdminDeleteUserSolveUnauthorizedResponseBody'
+        "404":
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/AdminDeleteUserSolveNotFoundResponseBody'
       schemes:
       - http
       security:
@@ -3040,10 +3118,10 @@ definitions:
       - web
       challenge_id: 225ada44-3fde-460d-84a4-2f16ff579618
       custom:
-        chall_namespace: Et magnam qui.
-        publish: false
-        publish_at: Et fugiat qui ut.
-        slug: Nihil dolore libero.
+        chall_namespace: Aut repellat assumenda et voluptatem molestias facere.
+        publish: true
+        publish_at: Laudantium consequatur nihil.
+        slug: Minus necessitatibus libero perspiciatis harum.
       description: how to dns
       file_urls:
       - https://bucket/key
@@ -3059,7 +3137,7 @@ definitions:
       - flag: fl4g_l0l
         type: regex
       human_metadata:
-        event_name: Aut repellat assumenda et voluptatem molestias facere.
+        event_name: Ex sint ad consequuntur temporibus.
       order: 5
       score: 100
       services:
@@ -6094,6 +6172,277 @@ definitions:
     - temporary
     - timeout
     - fault
+  AdminDeleteUserSolveBadRequestResponseBody:
+    title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+    type: object
+    properties:
+      fault:
+        type: boolean
+        description: Is the error a server-side fault?
+        example: true
+      id:
+        type: string
+        description: ID is a unique identifier for this particular occurrence of the
+          problem.
+        example: 123abc
+      message:
+        type: string
+        description: Message is a human-readable explanation specific to this occurrence
+          of the problem.
+        example: parameter 'p' must be an integer
+      name:
+        type: string
+        description: Name is the name of this class of errors.
+        example: bad_request
+      temporary:
+        type: boolean
+        description: Is the error temporary?
+        example: false
+      timeout:
+        type: boolean
+        description: Is the error a timeout?
+        example: true
+    description: DeleteUserSolve_bad_request_Response_Body result type (default view)
+    example:
+      fault: false
+      id: 123abc
+      message: parameter 'p' must be an integer
+      name: bad_request
+      temporary: false
+      timeout: true
+    required:
+    - name
+    - id
+    - message
+    - temporary
+    - timeout
+    - fault
+  AdminDeleteUserSolveNotFoundResponseBody:
+    title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+    type: object
+    properties:
+      fault:
+        type: boolean
+        description: Is the error a server-side fault?
+        example: true
+      id:
+        type: string
+        description: ID is a unique identifier for this particular occurrence of the
+          problem.
+        example: 123abc
+      message:
+        type: string
+        description: Message is a human-readable explanation specific to this occurrence
+          of the problem.
+        example: parameter 'p' must be an integer
+      name:
+        type: string
+        description: Name is the name of this class of errors.
+        example: bad_request
+      temporary:
+        type: boolean
+        description: Is the error temporary?
+        example: false
+      timeout:
+        type: boolean
+        description: Is the error a timeout?
+        example: true
+    description: DeleteUserSolve_not_found_Response_Body result type (default view)
+    example:
+      fault: true
+      id: 123abc
+      message: parameter 'p' must be an integer
+      name: bad_request
+      temporary: true
+      timeout: false
+    required:
+    - name
+    - id
+    - message
+    - temporary
+    - timeout
+    - fault
+  AdminDeleteUserSolveUnauthorizedResponseBody:
+    title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+    type: object
+    properties:
+      fault:
+        type: boolean
+        description: Is the error a server-side fault?
+        example: false
+      id:
+        type: string
+        description: ID is a unique identifier for this particular occurrence of the
+          problem.
+        example: 123abc
+      message:
+        type: string
+        description: Message is a human-readable explanation specific to this occurrence
+          of the problem.
+        example: parameter 'p' must be an integer
+      name:
+        type: string
+        description: Name is the name of this class of errors.
+        example: bad_request
+      temporary:
+        type: boolean
+        description: Is the error temporary?
+        example: true
+      timeout:
+        type: boolean
+        description: Is the error a timeout?
+        example: false
+    description: DeleteUserSolve_unauthorized_Response_Body result type (default view)
+    example:
+      fault: false
+      id: 123abc
+      message: parameter 'p' must be an integer
+      name: bad_request
+      temporary: true
+      timeout: true
+    required:
+    - name
+    - id
+    - message
+    - temporary
+    - timeout
+    - fault
+  AdminDeleteUserSolvesBadRequestResponseBody:
+    title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+    type: object
+    properties:
+      fault:
+        type: boolean
+        description: Is the error a server-side fault?
+        example: false
+      id:
+        type: string
+        description: ID is a unique identifier for this particular occurrence of the
+          problem.
+        example: 123abc
+      message:
+        type: string
+        description: Message is a human-readable explanation specific to this occurrence
+          of the problem.
+        example: parameter 'p' must be an integer
+      name:
+        type: string
+        description: Name is the name of this class of errors.
+        example: bad_request
+      temporary:
+        type: boolean
+        description: Is the error temporary?
+        example: false
+      timeout:
+        type: boolean
+        description: Is the error a timeout?
+        example: true
+    description: DeleteUserSolves_bad_request_Response_Body result type (default view)
+    example:
+      fault: true
+      id: 123abc
+      message: parameter 'p' must be an integer
+      name: bad_request
+      temporary: true
+      timeout: true
+    required:
+    - name
+    - id
+    - message
+    - temporary
+    - timeout
+    - fault
+  AdminDeleteUserSolvesNotFoundResponseBody:
+    title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+    type: object
+    properties:
+      fault:
+        type: boolean
+        description: Is the error a server-side fault?
+        example: false
+      id:
+        type: string
+        description: ID is a unique identifier for this particular occurrence of the
+          problem.
+        example: 123abc
+      message:
+        type: string
+        description: Message is a human-readable explanation specific to this occurrence
+          of the problem.
+        example: parameter 'p' must be an integer
+      name:
+        type: string
+        description: Name is the name of this class of errors.
+        example: bad_request
+      temporary:
+        type: boolean
+        description: Is the error temporary?
+        example: false
+      timeout:
+        type: boolean
+        description: Is the error a timeout?
+        example: false
+    description: DeleteUserSolves_not_found_Response_Body result type (default view)
+    example:
+      fault: false
+      id: 123abc
+      message: parameter 'p' must be an integer
+      name: bad_request
+      temporary: false
+      timeout: false
+    required:
+    - name
+    - id
+    - message
+    - temporary
+    - timeout
+    - fault
+  AdminDeleteUserSolvesUnauthorizedResponseBody:
+    title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+    type: object
+    properties:
+      fault:
+        type: boolean
+        description: Is the error a server-side fault?
+        example: true
+      id:
+        type: string
+        description: ID is a unique identifier for this particular occurrence of the
+          problem.
+        example: 123abc
+      message:
+        type: string
+        description: Message is a human-readable explanation specific to this occurrence
+          of the problem.
+        example: parameter 'p' must be an integer
+      name:
+        type: string
+        description: Name is the name of this class of errors.
+        example: bad_request
+      temporary:
+        type: boolean
+        description: Is the error temporary?
+        example: true
+      timeout:
+        type: boolean
+        description: Is the error a timeout?
+        example: false
+    description: DeleteUserSolves_unauthorized_Response_Body result type (default
+      view)
+    example:
+      fault: true
+      id: 123abc
+      message: parameter 'p' must be an integer
+      name: bad_request
+      temporary: true
+      timeout: true
+    required:
+    - name
+    - id
+    - message
+    - temporary
+    - timeout
+    - fault
   AdminGetChallengeMetaBadRequestResponseBody:
     title: 'Mediatype identifier: application/vnd.goa.error; view=default'
     type: object
@@ -6193,11 +6542,11 @@ definitions:
         items:
           $ref: '#/definitions/ChallengeSolverResponseBody'
         example:
-        - solved_at: 8836990142403085489
+        - solved_at: 9215299508287967575
           user_id: 8bf8ae1c-0c49-4ea7-ad0f-0798d7b2728a
-        - solved_at: 8836990142403085489
+        - solved_at: 9215299508287967575
           user_id: 8bf8ae1c-0c49-4ea7-ad0f-0798d7b2728a
-        - solved_at: 8836990142403085489
+        - solved_at: 9215299508287967575
           user_id: 8bf8ae1c-0c49-4ea7-ad0f-0798d7b2728a
       submissions:
         type: array
@@ -6206,44 +6555,44 @@ definitions:
         example:
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
     example:
       solvers:
-      - solved_at: 8836990142403085489
+      - solved_at: 9215299508287967575
         user_id: 8bf8ae1c-0c49-4ea7-ad0f-0798d7b2728a
-      - solved_at: 8836990142403085489
+      - solved_at: 9215299508287967575
         user_id: 8bf8ae1c-0c49-4ea7-ad0f-0798d7b2728a
       submissions:
       - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         input: SSM{wrong_flag}
-        submitted_at: 6234404335250354171
+        submitted_at: 3950932648095193533
         successful: false
         user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
       - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         input: SSM{wrong_flag}
-        submitted_at: 6234404335250354171
+        submitted_at: 3950932648095193533
         successful: false
         user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
       - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         input: SSM{wrong_flag}
-        submitted_at: 6234404335250354171
+        submitted_at: 3950932648095193533
         successful: false
         user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
       - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         input: SSM{wrong_flag}
-        submitted_at: 6234404335250354171
+        submitted_at: 3950932648095193533
         successful: false
         user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
     required:
@@ -6565,27 +6914,22 @@ definitions:
           submissions:
           - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
             input: SSM{wrong_flag}
-            submitted_at: 6234404335250354171
+            submitted_at: 3950932648095193533
             successful: false
             user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
           - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
             input: SSM{wrong_flag}
-            submitted_at: 6234404335250354171
-            successful: false
-            user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
-        - challenge_id: 8bf8ae1c-0c49-4ea7-ad0f-0798d7b2728a
-          challenge_slug: binexp-101
-          challenge_title: Binary Exploitation 101
-          solved: true
-          submissions:
-          - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
-            input: SSM{wrong_flag}
-            submitted_at: 6234404335250354171
+            submitted_at: 3950932648095193533
             successful: false
             user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
           - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
             input: SSM{wrong_flag}
-            submitted_at: 6234404335250354171
+            submitted_at: 3950932648095193533
+            successful: false
+            user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+          - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+            input: SSM{wrong_flag}
+            submitted_at: 3950932648095193533
             successful: false
             user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
         - challenge_id: 8bf8ae1c-0c49-4ea7-ad0f-0798d7b2728a
@@ -6595,12 +6939,22 @@ definitions:
           submissions:
           - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
             input: SSM{wrong_flag}
-            submitted_at: 6234404335250354171
+            submitted_at: 3950932648095193533
             successful: false
             user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
           - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
             input: SSM{wrong_flag}
-            submitted_at: 6234404335250354171
+            submitted_at: 3950932648095193533
+            successful: false
+            user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+          - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+            input: SSM{wrong_flag}
+            submitted_at: 3950932648095193533
+            successful: false
+            user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+          - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+            input: SSM{wrong_flag}
+            submitted_at: 3950932648095193533
             successful: false
             user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
         - challenge_id: 8bf8ae1c-0c49-4ea7-ad0f-0798d7b2728a
@@ -6610,12 +6964,47 @@ definitions:
           submissions:
           - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
             input: SSM{wrong_flag}
-            submitted_at: 6234404335250354171
+            submitted_at: 3950932648095193533
             successful: false
             user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
           - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
             input: SSM{wrong_flag}
-            submitted_at: 6234404335250354171
+            submitted_at: 3950932648095193533
+            successful: false
+            user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+          - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+            input: SSM{wrong_flag}
+            submitted_at: 3950932648095193533
+            successful: false
+            user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+          - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+            input: SSM{wrong_flag}
+            submitted_at: 3950932648095193533
+            successful: false
+            user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+        - challenge_id: 8bf8ae1c-0c49-4ea7-ad0f-0798d7b2728a
+          challenge_slug: binexp-101
+          challenge_title: Binary Exploitation 101
+          solved: true
+          submissions:
+          - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+            input: SSM{wrong_flag}
+            submitted_at: 3950932648095193533
+            successful: false
+            user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+          - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+            input: SSM{wrong_flag}
+            submitted_at: 3950932648095193533
+            successful: false
+            user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+          - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+            input: SSM{wrong_flag}
+            submitted_at: 3950932648095193533
+            successful: false
+            user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+          - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+            input: SSM{wrong_flag}
+            submitted_at: 3950932648095193533
             successful: false
             user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
       discord_user:
@@ -6665,27 +7054,22 @@ definitions:
         submissions:
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
-          successful: false
-          user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
-      - challenge_id: 8bf8ae1c-0c49-4ea7-ad0f-0798d7b2728a
-        challenge_slug: binexp-101
-        challenge_title: Binary Exploitation 101
-        solved: true
-        submissions:
-        - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
-          input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
+          successful: false
+          user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+        - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          input: SSM{wrong_flag}
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
       - challenge_id: 8bf8ae1c-0c49-4ea7-ad0f-0798d7b2728a
@@ -6695,12 +7079,22 @@ definitions:
         submissions:
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
+          successful: false
+          user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+        - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          input: SSM{wrong_flag}
+          submitted_at: 3950932648095193533
+          successful: false
+          user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+        - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          input: SSM{wrong_flag}
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
       - challenge_id: 8bf8ae1c-0c49-4ea7-ad0f-0798d7b2728a
@@ -6710,12 +7104,47 @@ definitions:
         submissions:
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
+          successful: false
+          user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+        - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          input: SSM{wrong_flag}
+          submitted_at: 3950932648095193533
+          successful: false
+          user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+        - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          input: SSM{wrong_flag}
+          submitted_at: 3950932648095193533
+          successful: false
+          user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+      - challenge_id: 8bf8ae1c-0c49-4ea7-ad0f-0798d7b2728a
+        challenge_slug: binexp-101
+        challenge_title: Binary Exploitation 101
+        solved: true
+        submissions:
+        - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          input: SSM{wrong_flag}
+          submitted_at: 3950932648095193533
+          successful: false
+          user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+        - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          input: SSM{wrong_flag}
+          submitted_at: 3950932648095193533
+          successful: false
+          user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+        - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          input: SSM{wrong_flag}
+          submitted_at: 3950932648095193533
+          successful: false
+          user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
+        - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          input: SSM{wrong_flag}
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
       discord_user:
@@ -8489,9 +8918,10 @@ definitions:
       - filename: decryptor.exe
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         url: https://s3/bucket/key?signature
-      flags:
-      - flag: SSM{yo}
+      - filename: decryptor.exe
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+        url: https://s3/bucket/key?signature
+      flags:
       - flag: SSM{yo}
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
       - flag: SSM{yo}
@@ -8500,6 +8930,8 @@ definitions:
       id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
       publish_at: 1638384718
       services:
+      - hyperlink: true
+        user_display: nc 0.0.0.0 1234
       - hyperlink: true
         user_display: nc 0.0.0.0 1234
       - hyperlink: true
@@ -8522,9 +8954,10 @@ definitions:
       - filename: decryptor.exe
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         url: https://s3/bucket/key?signature
-      flags:
-      - flag: SSM{yo}
+      - filename: decryptor.exe
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+        url: https://s3/bucket/key?signature
+      flags:
       - flag: SSM{yo}
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
       - flag: SSM{yo}
@@ -8533,6 +8966,8 @@ definitions:
       id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
       publish_at: 1638384718
       services:
+      - hyperlink: true
+        user_display: nc 0.0.0.0 1234
       - hyperlink: true
         user_display: nc 0.0.0.0 1234
       - hyperlink: true
@@ -8555,9 +8990,10 @@ definitions:
       - filename: decryptor.exe
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         url: https://s3/bucket/key?signature
-      flags:
-      - flag: SSM{yo}
+      - filename: decryptor.exe
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+        url: https://s3/bucket/key?signature
+      flags:
       - flag: SSM{yo}
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
       - flag: SSM{yo}
@@ -8566,6 +9002,8 @@ definitions:
       id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
       publish_at: 1638384718
       services:
+      - hyperlink: true
+        user_display: nc 0.0.0.0 1234
       - hyperlink: true
         user_display: nc 0.0.0.0 1234
       - hyperlink: true
@@ -10440,13 +10878,13 @@ definitions:
     properties:
       challenge_id:
         type: string
-        example: Iusto fugit est velit.
+        example: Explicabo eligendi.
       solved_at:
         type: string
-        example: Qui inventore quia et ut.
+        example: Molestiae molestias quam.
     example:
-      challenge_id: Repudiandae ipsam error minima est.
-      solved_at: Tempora unde voluptatem provident explicabo.
+      challenge_id: Eaque voluptatem voluptatibus quam blanditiis.
+      solved_at: Tenetur temporibus dolorem.
     required:
     - challenge_id
     - solved_at
@@ -10588,6 +11026,13 @@ definitions:
           publish: true
           slug: movitz
           sponsor: true
+        - description: Movitz gör saker
+          full_name: Movitz Sunar
+          id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          image_url: movitz
+          publish: true
+          slug: movitz
+          sponsor: true
         category: Misc
         chall_namespace: knackkoden
         ctf_event_id: c397efb2-b171-4d77-9166-d105cf4f521a
@@ -10597,13 +11042,13 @@ definitions:
           url: https://s3/bucket/key?signature
         - filename: decryptor.exe
           url: https://s3/bucket/key?signature
-        - filename: decryptor.exe
-          url: https://s3/bucket/key?signature
-        - filename: decryptor.exe
-          url: https://s3/bucket/key?signature
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         score: 50
         services:
+        - hyperlink: true
+          user_display: nc 0.0.0.0 1234
+        - hyperlink: true
+          user_display: nc 0.0.0.0 1234
         - hyperlink: true
           user_display: nc 0.0.0.0 1234
         - hyperlink: true
@@ -11007,6 +11452,13 @@ definitions:
         publish: true
         slug: movitz
         sponsor: true
+      - description: Movitz gör saker
+        full_name: Movitz Sunar
+        id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+        image_url: movitz
+        publish: true
+        slug: movitz
+        sponsor: true
       category: Misc
       chall_namespace: knackkoden
       ctf_event_id: c397efb2-b171-4d77-9166-d105cf4f521a
@@ -11016,13 +11468,13 @@ definitions:
         url: https://s3/bucket/key?signature
       - filename: decryptor.exe
         url: https://s3/bucket/key?signature
-      - filename: decryptor.exe
-        url: https://s3/bucket/key?signature
-      - filename: decryptor.exe
-        url: https://s3/bucket/key?signature
       id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
       score: 50
       services:
+      - hyperlink: true
+        user_display: nc 0.0.0.0 1234
+      - hyperlink: true
+        user_display: nc 0.0.0.0 1234
       - hyperlink: true
         user_display: nc 0.0.0.0 1234
       - hyperlink: true
@@ -11059,6 +11511,13 @@ definitions:
         publish: true
         slug: movitz
         sponsor: true
+      - description: Movitz gör saker
+        full_name: Movitz Sunar
+        id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+        image_url: movitz
+        publish: true
+        slug: movitz
+        sponsor: true
       category: Misc
       chall_namespace: knackkoden
       ctf_event_id: c397efb2-b171-4d77-9166-d105cf4f521a
@@ -11068,13 +11527,13 @@ definitions:
         url: https://s3/bucket/key?signature
       - filename: decryptor.exe
         url: https://s3/bucket/key?signature
-      - filename: decryptor.exe
-        url: https://s3/bucket/key?signature
-      - filename: decryptor.exe
-        url: https://s3/bucket/key?signature
       id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
       score: 50
       services:
+      - hyperlink: true
+        user_display: nc 0.0.0.0 1234
+      - hyperlink: true
+        user_display: nc 0.0.0.0 1234
       - hyperlink: true
         user_display: nc 0.0.0.0 1234
       - hyperlink: true
@@ -11111,6 +11570,13 @@ definitions:
         publish: true
         slug: movitz
         sponsor: true
+      - description: Movitz gör saker
+        full_name: Movitz Sunar
+        id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+        image_url: movitz
+        publish: true
+        slug: movitz
+        sponsor: true
       category: Misc
       chall_namespace: knackkoden
       ctf_event_id: c397efb2-b171-4d77-9166-d105cf4f521a
@@ -11120,13 +11586,13 @@ definitions:
         url: https://s3/bucket/key?signature
       - filename: decryptor.exe
         url: https://s3/bucket/key?signature
-      - filename: decryptor.exe
-        url: https://s3/bucket/key?signature
-      - filename: decryptor.exe
-        url: https://s3/bucket/key?signature
       id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
       score: 50
       services:
+      - hyperlink: true
+        user_display: nc 0.0.0.0 1234
+      - hyperlink: true
+        user_display: nc 0.0.0.0 1234
       - hyperlink: true
         user_display: nc 0.0.0.0 1234
       - hyperlink: true
@@ -11163,6 +11629,13 @@ definitions:
         publish: true
         slug: movitz
         sponsor: true
+      - description: Movitz gör saker
+        full_name: Movitz Sunar
+        id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+        image_url: movitz
+        publish: true
+        slug: movitz
+        sponsor: true
       category: Misc
       chall_namespace: knackkoden
       ctf_event_id: c397efb2-b171-4d77-9166-d105cf4f521a
@@ -11172,13 +11645,13 @@ definitions:
         url: https://s3/bucket/key?signature
       - filename: decryptor.exe
         url: https://s3/bucket/key?signature
-      - filename: decryptor.exe
-        url: https://s3/bucket/key?signature
-      - filename: decryptor.exe
-        url: https://s3/bucket/key?signature
       id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
       score: 50
       services:
+      - hyperlink: true
+        user_display: nc 0.0.0.0 1234
+      - hyperlink: true
+        user_display: nc 0.0.0.0 1234
       - hyperlink: true
         user_display: nc 0.0.0.0 1234
       - hyperlink: true
@@ -11225,6 +11698,13 @@ definitions:
           publish: true
           slug: movitz
           sponsor: true
+        - description: Movitz gör saker
+          full_name: Movitz Sunar
+          id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          image_url: movitz
+          publish: true
+          slug: movitz
+          sponsor: true
         category: Misc
         chall_namespace: knackkoden
         ctf_event_id: c397efb2-b171-4d77-9166-d105cf4f521a
@@ -11234,13 +11714,13 @@ definitions:
           url: https://s3/bucket/key?signature
         - filename: decryptor.exe
           url: https://s3/bucket/key?signature
-        - filename: decryptor.exe
-          url: https://s3/bucket/key?signature
-        - filename: decryptor.exe
-          url: https://s3/bucket/key?signature
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         score: 50
         services:
+        - hyperlink: true
+          user_display: nc 0.0.0.0 1234
+        - hyperlink: true
+          user_display: nc 0.0.0.0 1234
         - hyperlink: true
           user_display: nc 0.0.0.0 1234
         - hyperlink: true
@@ -11282,6 +11762,13 @@ definitions:
           publish: true
           slug: movitz
           sponsor: true
+        - description: Movitz gör saker
+          full_name: Movitz Sunar
+          id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          image_url: movitz
+          publish: true
+          slug: movitz
+          sponsor: true
         category: Misc
         chall_namespace: knackkoden
         ctf_event_id: c397efb2-b171-4d77-9166-d105cf4f521a
@@ -11291,13 +11778,13 @@ definitions:
           url: https://s3/bucket/key?signature
         - filename: decryptor.exe
           url: https://s3/bucket/key?signature
-        - filename: decryptor.exe
-          url: https://s3/bucket/key?signature
-        - filename: decryptor.exe
-          url: https://s3/bucket/key?signature
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         score: 50
         services:
+        - hyperlink: true
+          user_display: nc 0.0.0.0 1234
+        - hyperlink: true
+          user_display: nc 0.0.0.0 1234
         - hyperlink: true
           user_display: nc 0.0.0.0 1234
         - hyperlink: true
@@ -11339,6 +11826,13 @@ definitions:
           publish: true
           slug: movitz
           sponsor: true
+        - description: Movitz gör saker
+          full_name: Movitz Sunar
+          id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          image_url: movitz
+          publish: true
+          slug: movitz
+          sponsor: true
         category: Misc
         chall_namespace: knackkoden
         ctf_event_id: c397efb2-b171-4d77-9166-d105cf4f521a
@@ -11348,13 +11842,13 @@ definitions:
           url: https://s3/bucket/key?signature
         - filename: decryptor.exe
           url: https://s3/bucket/key?signature
-        - filename: decryptor.exe
-          url: https://s3/bucket/key?signature
-        - filename: decryptor.exe
-          url: https://s3/bucket/key?signature
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         score: 50
         services:
+        - hyperlink: true
+          user_display: nc 0.0.0.0 1234
+        - hyperlink: true
+          user_display: nc 0.0.0.0 1234
         - hyperlink: true
           user_display: nc 0.0.0.0 1234
         - hyperlink: true
@@ -11439,22 +11933,22 @@ definitions:
         example:
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
         - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
           input: SSM{wrong_flag}
-          submitted_at: 6234404335250354171
+          submitted_at: 3950932648095193533
           successful: false
           user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
     example:
@@ -11465,12 +11959,12 @@ definitions:
       submissions:
       - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         input: SSM{wrong_flag}
-        submitted_at: 6234404335250354171
+        submitted_at: 3950932648095193533
         successful: false
         user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
       - id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         input: SSM{wrong_flag}
-        submitted_at: 6234404335250354171
+        submitted_at: 3950932648095193533
         successful: false
         user_id: a78c6915-87f4-49e1-8ec9-0bb5c261b56d
     required:
@@ -11780,24 +12274,22 @@ definitions:
         type: array
         items:
           type: string
-          example: Molestiae sunt.
+          example: Consectetur sed voluptas.
         example:
-        - Sit fuga cumque in.
-        - Quas voluptatem suscipit dolorum itaque.
-        - Deserunt quod est consectetur.
-        - Sit consequatur mollitia voluptas molestiae quia.
+        - Vel qui et.
+        - Perspiciatis non et vitae.
       description:
         type: string
-        example: Commodi veniam est.
+        example: Deserunt quod est consectetur.
       end_time:
         type: string
-        example: Reiciendis ut quidem quod voluptates sapiente sed.
+        example: Occaecati quis quos alias et vel.
       id:
         type: string
-        example: Eius ratione.
+        example: Sit fuga cumque in.
       name:
         type: string
-        example: Quia odio qui expedita officiis dolorem consequatur.
+        example: Quas voluptatem suscipit dolorum itaque.
       private:
         type: boolean
         description: Is the CTF private?
@@ -11805,17 +12297,17 @@ definitions:
       scoreboard_freeze_end:
         type: string
         description: Scoreboard freeze end time
-        example: Labore qui quasi aliquam.
+        example: Ipsum architecto.
       scoreboard_freeze_start:
         type: string
         description: Scoreboard freeze start time
-        example: Occaecati quis quos alias et vel.
+        example: Ut odio sit sed ex sapiente fugit.
       slug:
         type: string
-        example: Dolor provident dolor et.
+        example: Labore qui quasi aliquam.
       start_time:
         type: string
-        example: Veritatis dolore doloribus.
+        example: Sit consequatur mollitia voluptas molestiae quia.
       team_based:
         type: boolean
         description: Is the CTF team-based?
@@ -11826,17 +12318,17 @@ definitions:
         example: ctf-theme
     example:
       challenge_ids:
-      - Consequuntur consequatur laborum.
-      - Magnam est.
-      description: Et autem perspiciatis non et vitae tempore.
-      end_time: Architecto et.
-      id: Consectetur sed voluptas.
-      name: Et vel.
+      - Facilis quia eum.
+      - Magni et aut incidunt reiciendis.
+      description: Magnam est.
+      end_time: Consequatur qui est non.
+      id: Rem vero at sit.
+      name: Consequuntur consequatur laborum.
       private: false
-      scoreboard_freeze_end: Consequatur qui est non.
-      scoreboard_freeze_start: Et ipsum quo repellendus omnis.
-      slug: Vero at.
-      start_time: Odio sit sed ex sapiente fugit aut.
+      scoreboard_freeze_end: Aut assumenda et iusto.
+      scoreboard_freeze_start: Sit eveniet quis.
+      slug: Suscipit ea repellat labore sed.
+      start_time: Et ipsum quo repellendus omnis.
       team_based: false
       theme: ctf-theme
     required:
@@ -11855,7 +12347,7 @@ definitions:
       fault:
         type: boolean
         description: Is the error a server-side fault?
-        example: false
+        example: true
       id:
         type: string
         description: ID is a unique identifier for this particular occurrence of the
@@ -11873,14 +12365,14 @@ definitions:
       temporary:
         type: boolean
         description: Is the error temporary?
-        example: false
+        example: true
       timeout:
         type: boolean
         description: Is the error a timeout?
         example: false
     description: GetUser_invalid_password_Response_Body result type (default view)
     example:
-      fault: true
+      fault: false
       id: 123abc
       message: parameter 'p' must be an integer
       name: bad_request
@@ -11922,7 +12414,7 @@ definitions:
       timeout:
         type: boolean
         description: Is the error a timeout?
-        example: false
+        example: true
     description: GetUser_not_found_Response_Body result type (default view)
     example:
       fault: false
@@ -11930,7 +12422,7 @@ definitions:
       message: parameter 'p' must be an integer
       name: bad_request
       temporary: true
-      timeout: true
+      timeout: false
     required:
     - name
     - id
@@ -11944,13 +12436,13 @@ definitions:
     properties:
       ctf_id:
         type: string
-        example: Iure occaecati rem aut.
+        example: Eos aliquid ut veritatis exercitationem sit consequuntur.
       id:
         type: string
-        example: Quia deleniti dolorem consequatur illo sunt quod.
+        example: Et dolorum sed illum et sunt occaecati.
       password:
         type: string
-        example: Autem quis et dolorum.
+        example: Quidem et repellendus ut aut officia fugit.
       team_id:
         type: string
         description: Optional team ID for team-based CTFs
@@ -11961,14 +12453,14 @@ definitions:
         example: Team Alpha
       username:
         type: string
-        example: Aliquam minus architecto doloremque ex suscipit.
+        example: Accusantium aut.
     example:
-      ctf_id: Eos aliquid ut veritatis exercitationem sit consequuntur.
-      id: Illum et sunt occaecati.
-      password: Quidem et repellendus ut aut officia fugit.
+      ctf_id: Blanditiis rerum minus.
+      id: Repellendus id.
+      password: Illum assumenda est iusto fugit.
       team_id: team123
       teamname: Team Alpha
-      username: Accusantium aut.
+      username: Perferendis doloremque consectetur omnis consectetur dolorem.
     required:
     - id
     - ctf_id
@@ -11983,22 +12475,24 @@ definitions:
         items:
           $ref: '#/definitions/CTFUserSolveResponseBody'
         example:
-        - challenge_id: Dolorem earum enim vero ut ullam.
-          solved_at: Ullam dolorem.
-        - challenge_id: Dolorem earum enim vero ut ullam.
-          solved_at: Ullam dolorem.
-        - challenge_id: Dolorem earum enim vero ut ullam.
-          solved_at: Ullam dolorem.
+        - challenge_id: Ullam dolorem.
+          solved_at: Quasi molestiae vero architecto ea necessitatibus maxime.
+        - challenge_id: Ullam dolorem.
+          solved_at: Quasi molestiae vero architecto ea necessitatibus maxime.
+        - challenge_id: Ullam dolorem.
+          solved_at: Quasi molestiae vero architecto ea necessitatibus maxime.
       username:
         type: string
-        example: Dolorem et illum assumenda.
+        example: Est minima tempora unde voluptatem.
     example:
       solves:
-      - challenge_id: Dolorem earum enim vero ut ullam.
-        solved_at: Ullam dolorem.
-      - challenge_id: Dolorem earum enim vero ut ullam.
-        solved_at: Ullam dolorem.
-      username: Molestiae molestias quam.
+      - challenge_id: Ullam dolorem.
+        solved_at: Quasi molestiae vero architecto ea necessitatibus maxime.
+      - challenge_id: Ullam dolorem.
+        solved_at: Quasi molestiae vero architecto ea necessitatibus maxime.
+      - challenge_id: Ullam dolorem.
+        solved_at: Quasi molestiae vero architecto ea necessitatibus maxime.
+      username: Numquam culpa qui ullam autem.
     required:
     - username
     - solves
@@ -12009,13 +12503,13 @@ definitions:
       team_code:
         type: string
         description: 'Optional: Team code to join a team in team-based CTFs.'
-        example: Qui sit quo sit nihil autem et.
+        example: Dolorem consequatur illo sunt quod voluptatem iure.
       username:
         type: string
-        example: Commodi est nobis praesentium voluptatem impedit neque.
+        example: Veritatis accusamus iste debitis quia.
     example:
-      team_code: Accusamus iste.
-      username: Aut et inventore vel eius ipsa ab.
+      team_code: Doloremque ex suscipit sequi autem.
+      username: Rem aut sit aliquam minus.
     required:
     - username
   CtfRegisterUserResponseBody:
@@ -12024,13 +12518,13 @@ definitions:
     properties:
       ctf_id:
         type: string
-        example: Omnis facilis quia eum aliquid magni et.
+        example: Ut aspernatur modi totam.
       id:
         type: string
-        example: Suscipit ea repellat labore sed.
+        example: Optio eius aut tenetur illum est cumque.
       password:
         type: string
-        example: Aut assumenda et iusto.
+        example: Et qui et sapiente voluptates minima.
       team_id:
         type: string
         description: Optional team ID for team-based CTFs
@@ -12041,14 +12535,14 @@ definitions:
         example: Team Alpha
       username:
         type: string
-        example: Incidunt reiciendis consequatur sit eveniet quis.
+        example: Consequatur iste.
     example:
-      ctf_id: Ut aspernatur modi totam.
-      id: Optio eius aut tenetur illum est cumque.
-      password: Et qui et sapiente voluptates minima.
+      ctf_id: Consectetur sed commodi est nobis praesentium voluptatem.
+      id: Deserunt ut cum.
+      password: Et in.
       team_id: team123
       teamname: Team Alpha
-      username: Consequatur iste.
+      username: Neque nobis qui sit quo sit nihil.
     required:
     - id
     - ctf_id
@@ -12079,14 +12573,14 @@ definitions:
       temporary:
         type: boolean
         description: Is the error temporary?
-        example: true
+        example: false
       timeout:
         type: boolean
         description: Is the error a timeout?
-        example: true
+        example: false
     description: Username already exists for this ctf. (default view)
     example:
-      fault: false
+      fault: true
       id: 123abc
       message: parameter 'p' must be an integer
       name: bad_request
@@ -12267,7 +12761,7 @@ definitions:
       fault:
         type: boolean
         description: Is the error a server-side fault?
-        example: true
+        example: false
       id:
         type: string
         description: ID is a unique identifier for this particular occurrence of the
@@ -12289,15 +12783,15 @@ definitions:
       timeout:
         type: boolean
         description: Is the error a timeout?
-        example: false
+        example: true
     description: SubmitFlag_already_solved_Response_Body result type (default view)
     example:
       fault: true
       id: 123abc
       message: parameter 'p' must be an integer
       name: bad_request
-      temporary: true
-      timeout: true
+      temporary: false
+      timeout: false
     required:
     - name
     - id
@@ -12312,7 +12806,7 @@ definitions:
       fault:
         type: boolean
         description: Is the error a server-side fault?
-        example: false
+        example: true
       id:
         type: string
         description: ID is a unique identifier for this particular occurrence of the
@@ -12330,18 +12824,18 @@ definitions:
       temporary:
         type: boolean
         description: Is the error temporary?
-        example: false
+        example: true
       timeout:
         type: boolean
         description: Is the error a timeout?
         example: true
     description: SubmitFlag_ctf_not_active_Response_Body result type (default view)
     example:
-      fault: true
+      fault: false
       id: 123abc
       message: parameter 'p' must be an integer
       name: bad_request
-      temporary: true
+      temporary: false
       timeout: false
     required:
     - name
@@ -12379,15 +12873,15 @@ definitions:
       timeout:
         type: boolean
         description: Is the error a timeout?
-        example: false
+        example: true
     description: SubmitFlag_incorrect_flag_Response_Body result type (default view)
     example:
       fault: false
       id: 123abc
       message: parameter 'p' must be an integer
       name: bad_request
-      temporary: false
-      timeout: false
+      temporary: true
+      timeout: true
     required:
     - name
     - id
@@ -12422,25 +12916,25 @@ definitions:
     properties:
       challenge_id:
         type: string
-        example: Quo doloremque.
+        example: Quas esse.
       ctf_id:
         type: string
-        example: Voluptatem cupiditate aperiam eligendi et et dolores.
+        example: Illo nesciunt ad beatae ullam neque cupiditate.
       id:
         type: string
-        example: Rem dignissimos excepturi non occaecati beatae et.
+        example: Unde nisi explicabo inventore dolores quo doloremque.
       solved_at:
         type: string
-        example: Illo nesciunt ad beatae ullam neque cupiditate.
+        example: Fugiat dolores quaerat incidunt.
       user_id:
         type: string
-        example: Inventore unde nisi explicabo inventore.
+        example: Soluta voluptatibus aut laboriosam temporibus excepturi.
     example:
-      challenge_id: Autem assumenda earum debitis vitae quis.
-      ctf_id: Quas esse.
-      id: Soluta voluptatibus aut laboriosam temporibus excepturi.
-      solved_at: Iure earum nobis laborum vero.
-      user_id: Fugiat dolores quaerat incidunt.
+      challenge_id: Voluptatem soluta id.
+      ctf_id: Iure earum nobis laborum vero.
+      id: Autem assumenda earum debitis vitae quis.
+      solved_at: Omnis exercitationem voluptatem nihil.
+      user_id: Nobis vitae et laborum sunt similique tenetur.
     required:
     - id
     - ctf_id
@@ -13118,20 +13612,6 @@ definitions:
           publish: true
           slug: movitz
           sponsor: true
-        - description: Movitz gör saker
-          full_name: Movitz Sunar
-          id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
-          image_url: movitz
-          publish: true
-          slug: movitz
-          sponsor: true
-        - description: Movitz gör saker
-          full_name: Movitz Sunar
-          id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
-          image_url: movitz
-          publish: true
-          slug: movitz
-          sponsor: true
       category:
         type: string
         example: Misc
@@ -13149,7 +13629,7 @@ definitions:
         example: A heap overflow challenge
       display_order:
         type: integer
-        example: 4638913776177592009
+        example: 6146301532352116846
         format: int64
       files:
         type: array
@@ -13167,11 +13647,11 @@ definitions:
         format: uuid
       num_solves_in_team:
         type: integer
-        example: 4953922122740291531
+        example: 938489317958134895
         format: int64
       num_team_solves:
         type: integer
-        example: 39541709376338610
+        example: 7963480005466995607
         format: int64
       score:
         type: integer
@@ -13183,6 +13663,8 @@ definitions:
         items:
           $ref: '#/definitions/ChallengeServiceResponse'
         example:
+        - hyperlink: true
+          user_display: nc 0.0.0.0 1234
         - hyperlink: true
           user_display: nc 0.0.0.0 1234
         - hyperlink: true
@@ -13210,14 +13692,14 @@ definitions:
         - full_name: Movitz Sunar
           id: 9f3e4702-d5b8-42c9-a409-a04678f23a33
           solved_at: 16123128
-        - full_name: Movitz Sunar
-          id: 9f3e4702-d5b8-42c9-a409-a04678f23a33
-          solved_at: 16123128
       solvers_in_team:
         type: array
         items:
           $ref: '#/definitions/SsmSolverResponse'
         example:
+        - full_name: Movitz Sunar
+          id: 9f3e4702-d5b8-42c9-a409-a04678f23a33
+          solved_at: 16123128
         - full_name: Movitz Sunar
           id: 9f3e4702-d5b8-42c9-a409-a04678f23a33
           solved_at: 16123128
@@ -13237,6 +13719,9 @@ definitions:
         items:
           $ref: '#/definitions/SsmSolverResponse'
         example:
+        - full_name: Movitz Sunar
+          id: 9f3e4702-d5b8-42c9-a409-a04678f23a33
+          solved_at: 16123128
         - full_name: Movitz Sunar
           id: 9f3e4702-d5b8-42c9-a409-a04678f23a33
           solved_at: 16123128
@@ -13267,25 +13752,35 @@ definitions:
         publish: true
         slug: movitz
         sponsor: true
+      - description: Movitz gör saker
+        full_name: Movitz Sunar
+        id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+        image_url: movitz
+        publish: true
+        slug: movitz
+        sponsor: true
+      - description: Movitz gör saker
+        full_name: Movitz Sunar
+        id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+        image_url: movitz
+        publish: true
+        slug: movitz
+        sponsor: true
       category: Misc
       chall_namespace: knackkoden
       ctf_event_id: c397efb2-b171-4d77-9166-d105cf4f521a
       description: A heap overflow challenge
-      display_order: 1331932598113011535
+      display_order: 360087566875880092
       files:
       - filename: decryptor.exe
         url: https://s3/bucket/key?signature
       - filename: decryptor.exe
         url: https://s3/bucket/key?signature
-      - filename: decryptor.exe
-        url: https://s3/bucket/key?signature
       id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
-      num_solves_in_team: 1925983507384760099
-      num_team_solves: 4516209068449136547
+      num_solves_in_team: 2344562806386991816
+      num_team_solves: 7722448106914922341
       score: 50
       services:
-      - hyperlink: true
-        user_display: nc 0.0.0.0 1234
       - hyperlink: true
         user_display: nc 0.0.0.0 1234
       - hyperlink: true
@@ -13300,16 +13795,7 @@ definitions:
       - full_name: Movitz Sunar
         id: 9f3e4702-d5b8-42c9-a409-a04678f23a33
         solved_at: 16123128
-      - full_name: Movitz Sunar
-        id: 9f3e4702-d5b8-42c9-a409-a04678f23a33
-        solved_at: 16123128
-      - full_name: Movitz Sunar
-        id: 9f3e4702-d5b8-42c9-a409-a04678f23a33
-        solved_at: 16123128
       solvers_in_team:
-      - full_name: Movitz Sunar
-        id: 9f3e4702-d5b8-42c9-a409-a04678f23a33
-        solved_at: 16123128
       - full_name: Movitz Sunar
         id: 9f3e4702-d5b8-42c9-a409-a04678f23a33
         solved_at: 16123128
@@ -13318,9 +13804,6 @@ definitions:
         solved_at: 16123128
       solves: 3
       team_solvers:
-      - full_name: Movitz Sunar
-        id: 9f3e4702-d5b8-42c9-a409-a04678f23a33
-        solved_at: 16123128
       - full_name: Movitz Sunar
         id: 9f3e4702-d5b8-42c9-a409-a04678f23a33
         solved_at: 16123128
@@ -13457,6 +13940,13 @@ definitions:
           publish: true
           slug: movitz
           sponsor: true
+        - description: Movitz gör saker
+          full_name: Movitz Sunar
+          id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
+          image_url: movitz
+          publish: true
+          slug: movitz
+          sponsor: true
         category: Misc
         chall_namespace: knackkoden
         ctf_event_id: c397efb2-b171-4d77-9166-d105cf4f521a
@@ -13466,13 +13956,13 @@ definitions:
           url: https://s3/bucket/key?signature
         - filename: decryptor.exe
           url: https://s3/bucket/key?signature
-        - filename: decryptor.exe
-          url: https://s3/bucket/key?signature
-        - filename: decryptor.exe
-          url: https://s3/bucket/key?signature
         id: 020817da-8b5c-42c4-9e52-0f3a6628c1f8
         score: 50
         services:
+        - hyperlink: true
+          user_display: nc 0.0.0.0 1234
+        - hyperlink: true
+          user_display: nc 0.0.0.0 1234
         - hyperlink: true
           user_display: nc 0.0.0.0 1234
         - hyperlink: true
@@ -13596,7 +14086,7 @@ definitions:
         example: a0b05541-9211-4faf-82cc-d3bd64370bf4
       school_name:
         type: string
-        example: Dolores magnam.
+        example: Amet cupiditate omnis similique est et qui.
     example:
       discord_id: "384389545793845983547349"
       email: movitz.sunar@ssm.example
@@ -13605,7 +14095,7 @@ definitions:
       onboarding_done: true
       role: admin
       school_id: a0b05541-9211-4faf-82cc-d3bd64370bf4
-      school_name: Sunt tempora rerum.
+      school_name: Voluptatem aut necessitatibus eaque architecto laudantium voluptas.
     required:
     - onboarding_done
     - id

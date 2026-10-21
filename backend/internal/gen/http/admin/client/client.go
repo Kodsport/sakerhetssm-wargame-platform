@@ -189,6 +189,14 @@ type Client struct {
 	// UpdateUserRole endpoint.
 	UpdateUserRoleDoer goahttp.Doer
 
+	// DeleteUserSolve Doer is the HTTP client used to make requests to the
+	// DeleteUserSolve endpoint.
+	DeleteUserSolveDoer goahttp.Doer
+
+	// DeleteUserSolves Doer is the HTTP client used to make requests to the
+	// DeleteUserSolves endpoint.
+	DeleteUserSolvesDoer goahttp.Doer
+
 	// RestoreResponseBody controls whether the response bodies are reset after
 	// decoding so they can be read again.
 	RestoreResponseBody bool
@@ -252,6 +260,8 @@ func NewClient(
 		UpdateCTFTeamDoer:             doer,
 		GetUserDetailsDoer:            doer,
 		UpdateUserRoleDoer:            doer,
+		DeleteUserSolveDoer:           doer,
+		DeleteUserSolvesDoer:          doer,
 		RestoreResponseBody:           restoreBody,
 		scheme:                        scheme,
 		host:                          host,
@@ -1287,6 +1297,54 @@ func (c *Client) UpdateUserRole() goa.Endpoint {
 		resp, err := c.UpdateUserRoleDoer.Do(req)
 		if err != nil {
 			return nil, goahttp.ErrRequestError("admin", "UpdateUserRole", err)
+		}
+		return decodeResponse(resp)
+	}
+}
+
+// DeleteUserSolve returns an endpoint that makes HTTP requests to the admin
+// service DeleteUserSolve server.
+func (c *Client) DeleteUserSolve() goa.Endpoint {
+	var (
+		encodeRequest  = EncodeDeleteUserSolveRequest(c.encoder)
+		decodeResponse = DecodeDeleteUserSolveResponse(c.decoder, c.RestoreResponseBody)
+	)
+	return func(ctx context.Context, v interface{}) (interface{}, error) {
+		req, err := c.BuildDeleteUserSolveRequest(ctx, v)
+		if err != nil {
+			return nil, err
+		}
+		err = encodeRequest(req, v)
+		if err != nil {
+			return nil, err
+		}
+		resp, err := c.DeleteUserSolveDoer.Do(req)
+		if err != nil {
+			return nil, goahttp.ErrRequestError("admin", "DeleteUserSolve", err)
+		}
+		return decodeResponse(resp)
+	}
+}
+
+// DeleteUserSolves returns an endpoint that makes HTTP requests to the admin
+// service DeleteUserSolves server.
+func (c *Client) DeleteUserSolves() goa.Endpoint {
+	var (
+		encodeRequest  = EncodeDeleteUserSolvesRequest(c.encoder)
+		decodeResponse = DecodeDeleteUserSolvesResponse(c.decoder, c.RestoreResponseBody)
+	)
+	return func(ctx context.Context, v interface{}) (interface{}, error) {
+		req, err := c.BuildDeleteUserSolvesRequest(ctx, v)
+		if err != nil {
+			return nil, err
+		}
+		err = encodeRequest(req, v)
+		if err != nil {
+			return nil, err
+		}
+		resp, err := c.DeleteUserSolvesDoer.Do(req)
+		if err != nil {
+			return nil, goahttp.ErrRequestError("admin", "DeleteUserSolves", err)
 		}
 		return decodeResponse(resp)
 	}
