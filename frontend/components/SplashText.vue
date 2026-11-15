@@ -30,7 +30,8 @@ const SPLASHES = [
 function special(date: Date) {
   const month = date.getMonth() + 1;
   const day = date.getDate();
-  const dayOfYear = Math.round((date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 86400000);
+  const dayOfYear = Math.floor((date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 86400000);
+  if (date.getHours() == 13 && date.getMinutes() == 37) return "13:37";
   if (month === 12 && day === 24) return "God jul!";
   if (month === 1 && day === 1) return "Gott nytt år!";
   if (month === 10 && day === 31) return "OOoooOOOoooo! Läskigt!";
