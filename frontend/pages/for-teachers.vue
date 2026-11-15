@@ -1,14 +1,21 @@
 <template>
     <div class="container">
         <div class="mc-panel">
-            <h1 class="text-primary">{{ $t('teachers.knackKoden') }}</h1>
+            <h1 class="text-primary">{{ $t('teachers.forGymnasium') }}</h1>
+            <h2 class="text-primary">{{ $t('teachers.sakerhetssm') }}</h2>
             <p>
-                {{ $t('teachers.knackKodenText') }} <a
-                    href="https://kodcentrum.se/knack-koden">{{ $t('teachers.kodcentrumInfo') }}</a>
+                {{ $t('teachers.sakerhetssmText') }}
+                <a href="https://sakerhetssm.se/">{{ $t('teachers.sakerhetssmLink') }}</a>{{ $t('teachers.sakerhetssmTextEnd') }}
             </p>
-            <h1 class="text-primary">{{ $t('teachers.lecturesGym') }}</h1>
+            <h2 class="text-primary">{{ $t('teachers.lecturesGym') }}</h2>
             <p>
                 {{ $t('teachers.lecturesGymText') }}
+            </p>
+            <h1 class="text-primary">{{ $t('teachers.forPrimary') }}</h1>
+            <h2 class="text-primary">{{ $t('teachers.knackKoden') }}</h2>
+            <p>
+                {{ $t('teachers.knackKodenText') }}
+                <a href="https://kodcentrum.se/knack-koden">{{ $t('teachers.kodcentrumInfo') }}</a>{{ $t('teachers.kodcentrumEnd') }}
             </p>
         </div>
     </div>

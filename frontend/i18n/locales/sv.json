@@ -114,11 +114,18 @@
   },
   "teachers": {
     "title": "SSM - Knäck Koden",
+    "forGymnasium": "För gymnasielärare",
+    "sakerhetssm": "Säkerhets-SM",
+    "sakerhetssmText": "Säkerhets-SM är en tävling inom cybersäkerhet och etisk hacking för gymnasieelever. Tävlingen genomförs online under 48 timmar, där deltagarna tävlar i lag om 1–3 personer. För mer information om tävlingen, besök vår hemsida på",
+    "sakerhetssmLink": "sakerhetssm.se",
+    "sakerhetssmTextEnd": ". Vi uppmuntrar lärare att sprida information om tävlingen till sina elever och klasser, så att så många som möjligt får möjlighet att delta!",
+    "forPrimary": "För grundskolelärare",
     "knackKoden": "Knäck Koden",
     "knackKodenText": "Knäck koden är en återkommande tävling i cybersäkerhet för grundskolan. Eleverna arbetar tillsammans i klassrummet för att träna digital hygien, problemlösning och digital handlingskompetens genom att arbeta med uppdrag och lösa utmaningar. Allt anpassat efter Lgr-22. Varje år har tävlingen ett nytt tema som kopplar cybersäkerhet till aktuella samhällsfrågor. Vill du ha Knäck Koden-lektioner i din skola? Spana in",
-    "kodcentrumInfo": "informationen hos Kodcentrum!",
+    "kodcentrumInfo": "informationen hos Kodcentrum",
+    "kodcentrumEnd": "!",
     "lecturesGym": "Föreläsningar för gymnasiet!",
-    "lecturesGymText": "Vi kommer gärna och föreläser för era studenter! Vi förklarar hur man hackar och hur man kommer in i svenska hackinglandslaget! Kontakta sakerhetssm@kodsport.se för att boka!"
+    "lecturesGymText": "Vi kommer gärna och föreläser för era studenter! Vi förklarar hur man hackar och hur man kommer in i svenska hackinglandslaget! Kontakta sakerhetssm{'@'}kodsport.se för att boka!"
   },
   "challengesPage": {
     "title": "SSM - Utmaningar",
