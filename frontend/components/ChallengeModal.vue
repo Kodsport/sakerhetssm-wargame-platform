@@ -59,7 +59,7 @@
                                 <FileDownload :file="file" />
                             </div>
                             <div class="pt-3" v-if="props.chall.solvers">
-                                <b>Första lösarna</b>
+                                <b>{{ $t('common.firstSolvers') }}</b>
                                 <ol>
                                     <li v-for="solver in props.chall.solvers">
                                         {{ solver.full_name }} <span class="badge bg-info">{{

@@ -1,14 +1,14 @@
 <template>
   <div class="container">
-    <h1>Poängtavla</h1>
+    <h1>{{ $t('ctf.scoreboard') }}</h1>
     <CTFAlert v-if="ctfStore?.ctf" />
     <table class="table table-hover align-middle scoreboard-table mt-4">
       <thead class="table-active">
         <tr>
           <th>#</th>
-          <th>{{ ctfStore?.ctf.team_based ? "Lagnamn" : "Namn" }}</th>
-          <th>Poäng</th>
-          <th>Lösningar</th>
+          <th>{{ ctfStore?.ctf.team_based ? $t('ctf.teamName') : $t('common.name') }}</th>
+          <th>{{ $t('common.score') }}</th>
+          <th>{{ $t('challenge.solutions') }}</th>
         </tr>
       </thead>
       <tbody>

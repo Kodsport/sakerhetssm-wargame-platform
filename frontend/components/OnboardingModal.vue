@@ -4,49 +4,46 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header pt-3">
-                    <h2 class="modal-title text-primary fw-bold">Välkommen {{ auth.user.full_name }}!</h2>
+                    <h2 class="modal-title text-primary fw-bold">{{ $t('onboarding.welcome', { name: auth.user.full_name }) }}</h2>
                     <button type="button" class="btn-close" aria-label="Close" @click="finish"></button>
                 </div>
                 <div class="modal-body">
                     <div>
                         <p>
-                            Vi hoppas att du lär dig något här, vi välkomnar både nybörjare och proffs! Be gärna
-                            om hjälp i <a href="">Kodsports Discordserver</a> om fastnar.
+                            {{ $t('onboarding.learnHere') }}
+                            <a href="">{{ $t('home.discordServer') }}</a> {{ $t('onboarding.ifStuck') }}
                         </p>
 
                         <div class="py-3">
-                            Vilket namn vill du ha på poängtavlan?
+                            {{ $t('onboarding.whichName') }}
 
                             <div class="form-group">
                                 <input class="form-control" type="text" name="" id="" v-model="fullName"
                                     @keydown="checkUsername">
                             </div>
 
-                            <p v-show="badUsername" class="text-danger">Ditt användarnamn får inte vara längre än 30
-                                bokstäver,
-                                och det får inte vara kortare än 3 bokstäver</p>
+                            <p v-show="badUsername" class="text-danger">{{ $t('onboarding.badUsername') }}</p>
                         </div>
 
                         <p>
-                            Vill du representera din skola på poängtavlan?
+                            {{ $t('onboarding.representSchool') }}
                         </p>
+                        <p class="text-muted">{{ $t('onboarding.shownOnScoreboard') }}</p>
                         <div v-if="!grund && !uni">
-                            <button class="btn btn-primary me-2 mt-1" @click="grund = true">Jag studerar i
-                                grundskola/gymnasie</button>
-                            <button class="btn btn-primary me-2 mt-1" @click="uni = true">Jag studerar på
-                                universitet/högskola</button>
-                            <button class="btn btn-primary mt-1" @click="finish">Jag studerar inte</button>
+                            <button class="btn btn-primary me-2 mt-1" @click="grund = true">{{ $t('onboarding.primarySecondary') }}</button>
+                            <button class="btn btn-primary me-2 mt-1" @click="uni = true">{{ $t('onboarding.uni') }}</button>
+                            <button class="btn btn-primary mt-1" @click="finish">{{ $t('onboarding.notStudying') }}</button>
                         </div>
 
                         <div v-if="grund || uni">
 
                             <input class="form-control" type="text" v-model="schoolQuery" @input="searchSchools"
-                                placeholder="Sök skola">
+                                :placeholder="$t('common.searchSchool')">
                             <ul>
                                 <li v-for="school in schools" :key="school.id">
                                     {{ school.name }} <span v-if="grund">({{ school.municipality_name }})</span>
                                     <button class="btn btn-primary btn-xs mt-1"
-                                        @click="joinSchool(school.id)">Representera</button>
+                                        @click="joinSchool(school.id)">{{ $t('common.represent') }}</button>
                                 </li>
                             </ul>
                         </div>

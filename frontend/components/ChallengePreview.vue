@@ -12,8 +12,8 @@
         </div>
         <div class="card-body d-flex justify-content-between">
             <div v-if="!props.hideSolves" class="align-items-end d-flex">
-                <span v-if="props.chall.solves != 0">{{ props.chall.solves }} lösare</span>
-                <span v-else>Olöst</span>
+                <span v-if="props.chall.solves != 0">{{ $t('challenge.solves', { count: props.chall.solves }) }}</span>
+                <span v-else>{{ $t('common.unsolved') }}</span>
             </div>
             <h3 class="align-items-end d-flex mb-0">{{ props.chall.score }}</h3>
         </div>
@@ -28,6 +28,5 @@ const store = useChallengeStore()
 const props = defineProps(['chall', 'hideSolves'])
 
 const event = computed(() => store.events.find(e => e.id == props.chall.ctf_event_id))
-
 
 </script>

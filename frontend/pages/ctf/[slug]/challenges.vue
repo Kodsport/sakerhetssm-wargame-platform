@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Utmaningar</h1>
+    <h1>{{ $t('ctf.challenges') }}</h1>
     <CTFAlert v-if="ctfStore?.ctf" />
     <client-only>
       <div

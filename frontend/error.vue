@@ -5,8 +5,8 @@
       <h1 class="error-page__title">{{ status }}</h1>
       <p class="error-page__message">{{ message }}</p>
       <div class="error-page__buttons">
-        <button class="btn btn-secondary" @click="back">Tillbaka</button>
-        <button class="btn btn-primary" @click="home">Till startsidan</button>
+        <button class="btn btn-secondary" @click="back">{{ $t('error.back') }}</button>
+        <button class="btn btn-primary" @click="home">{{ $t('error.toHome') }}</button>
       </div>
       <p v-if="props.error?.statusMessage" class="error-page__detail">{{ props.error.statusMessage }}</p>
     </main>
@@ -15,16 +15,18 @@
 
 <script setup lang="ts">
 import type { NuxtError } from "#app";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps<{ error: NuxtError }>();
 
 const route = useRoute();
+const { t } = useI18n();
 const status = computed(() => props.error?.statusCode ?? 500);
 const message = computed(() => {
-  if (status.value === 404) return `Det finns ingen sida på ${route.path}.`;
-  if (status.value === 401 || status.value === 403) return "Du har inte behörighet att se den här sidan.";
-  if (status.value >= 500) return "Något gick fel på servern. Försök igen om en stund.";
-  return "Något gick fel.";
+  if (status.value === 404) return t('error.notFound', { path: route.path });
+  if (status.value === 401 || status.value === 403) return t('error.forbidden');
+  if (status.value >= 500) return t('error.serverError');
+  return t('error.generic');
 });
 
 useHead({ title: computed(() => `${status.value} - SSM`) });

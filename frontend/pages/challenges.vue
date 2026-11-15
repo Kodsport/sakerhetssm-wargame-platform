@@ -1,23 +1,23 @@
 <template>
-    <h1 class="text-primary">Utmaningar</h1>
+    <h1 class="text-primary">{{ $t('challengesPage.heading') }}</h1>
     <p>
-        Här kan du öva på utmaningar från tidigare års upplagor av Säkerhets-SM.
+        {{ $t('challengesPage.intro') }}
     </p>
 
     <div class="d-flex flex-column flex-lg-row pt-4">
         <div class="ssm-filter mc-panel align-self-lg-start mb-4 me-lg-4">
-            <h3>Filtrera</h3>
+            <h3>{{ $t('common.filter') }}</h3>
             <div class="form-group">
-                <label>Kategori</label>
+                <label>{{ $t('common.category') }}</label>
                 <select class="form-control pointer" v-model="challFilter.categoryFilter">
-                    <option value="">alla</option>
+                    <option value="">{{ $t('common.all') }}</option>
                     <option class="text-lowercase" v-for="catx in categories" :value="catx">
                         {{ catx }}
                     </option>
                 </select>
             </div>
             <div v-if="challs.events.length" class="form-group pt-3">
-                <label>Tävling</label>
+                <label>{{ $t('common.competition') }}</label>
 
                 <div class="form-check" v-for="event in challs.events">
                     <input type="checkbox" class="form-check-input pointer" v-model="challFilter.eventFilter[event.id]">
@@ -55,8 +55,12 @@
 import { useChallengeStore } from '../store/challenges'
 import { storeToRefs } from "pinia";
 
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
+
 useHead({
-    title: 'SSM - Utmaningar'
+    title: computed(() => t('challengesPage.title'))
 })
 
 useServerSeoMeta({

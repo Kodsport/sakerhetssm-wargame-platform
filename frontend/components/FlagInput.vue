@@ -1,12 +1,12 @@
 <template>
     <div class="form-group flag-input">
         <template v-if="props.solved">
-            <InputReplacer text="Löst!" />
+            <InputReplacer :text="$t('common.solved')" />
         </template>
         <template v-else>
             <input v-if="auth.isAuthed" type="text" class="form-control" placeholder="SSM{..." :value="modelValue"
                 @input="$emit('update:modelValue', $event.target.value)">
-            <InputReplacer v-else text="Logga in för att skicka in flaggor!" />
+            <InputReplacer :text="$t('common.loginToSubmit')" />
         </template>
     </div>
 </template>
@@ -17,6 +17,4 @@ import { useAuthStore } from '~/store/auth';
 const auth = useAuthStore()
 const props = defineProps(['modelValue', 'solved'])
 defineEmits(['update:modelValue'])
-
-
 </script>

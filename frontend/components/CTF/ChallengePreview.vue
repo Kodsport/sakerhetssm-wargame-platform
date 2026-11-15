@@ -7,15 +7,15 @@
       <div v-if="!props.hideSolves" class="align-items-end d-flex solve-text">
         <template v-if="props.chall.numTeamsSolved !== undefined">
           <span v-if="props.chall.numTeamsSolved > 0"
-            >{{ props.chall.numTeamsSolved }} lag</span
+            >{{ props.chall.numTeamsSolved }} {{ $t('ctf.teams') }}</span
           >
-          <span v-else>Olöst</span>
+          <span v-else>{{ $t('common.unsolved') }}</span>
         </template>
         <template v-else>
           <span v-if="props.chall.numUsersSolved || props.chall.solves"
-            >{{ props.chall.numUsersSolved || props.chall.solves }} lösare</span
+            >{{ $t('challenge.solves', { count: props.chall.numUsersSolved || props.chall.solves }) }}</span
           >
-          <span v-else>Olöst</span>
+          <span v-else>{{ $t('common.unsolved') }}</span>
         </template>
       </div>
       <h3 class="align-items-end d-flex mb-0 score-text">

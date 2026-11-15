@@ -5,40 +5,39 @@
           <a class="tank-sakert__logo" href="https://www.ncsc.se/tanksakert" target="_blank">
             <img src="~/assets/tank-sakert.png" alt="Tänk säkert" />
           </a>
-          <h1 class="h2 mb-3">Är du smartare än en Kodsportare?</h1>
+          <h1 class="h2 mb-3">{{ $t('monthlyPage.areYouSmarter') }}</h1>
           <p>
-            Under oktober är månadens utmaning en del av
+            {{ $t('monthlyPage.octoberText') }}
             <a href="https://www.ncsc.se/tanksakert" target="_blank">Tänk säkert</a>,
-            kampanjen där NCSC, Polisen och över 20 andra organisationer sprider säkra vanor på nätet.
-            Alla får vara med och lösa, och du behöver inga förkunskaper för att börja.
+            {{ $t('monthlyPage.octoberTextMid') }}
           </p>
-          <p v-if="monthly.status.value != 'success'" class="text-primary">Utmaningen släpps 1 oktober kl. 16:00.</p>
+          <p v-if="monthly.status.value != 'success'" class="text-primary">{{ $t('monthlyPage.releases') }}</p>
           <div class="d-flex flex-wrap gap-2">
-            <a v-if="monthly.status.value == 'success'" class="btn btn-primary" href="#manadens-utmaning">Till månadens utmaning</a>
-            <NuxtLink class="btn btn-secondary" to="/challenges">Ny till CTF? Börja här</NuxtLink>
+            <a v-if="monthly.status.value == 'success'" class="btn btn-primary" href="#manadens-utmaning">{{ $t('monthlyPage.toMonthly') }}</a>
+            <NuxtLink class="btn btn-secondary" to="/challenges">{{ $t('monthlyPage.newToCtf') }}</NuxtLink>
           </div>
         </section>
 
         <div>
-          <h2 class="text-primary ">Vad är månadens problem?</h2>
+          <h2 class="text-primary ">{{ $t('monthlyPage.whatIs') }}</h2>
         </div>
         <div class="mc-panel mb-4">
           <div class="row g-4">
             <div class="col-12 col-md-6">
               <div>
-                <h4 class="text-primary mb-1 text-center">Beskrivning</h4>
-                <p class="text-white">Månadens problem är en utmaning i varierande svårighetsgrad skapad av medlemmar i CTF-gemenskapen.</p>
-                <p class="text-white">Den första varje månad 16:00 publiceras månadens utmaning. Pris ges ut en eller flera slumpmässigt valda lösare i slutet av månaden.</p>
-                <p class="text-white">Som lösare får du en speciell roll på <a :href="discordUrl" target="_blank">Kodsports Discordserver</a>. Rollen är enbart aktiv under månaden.</p>
+                <h4 class="text-primary mb-1 text-center">{{ $t('common.description') }}</h4>
+                <p class="text-white">{{ $t('monthlyPage.monthlyIs') }}</p>
+                <p class="text-white">{{ $t('monthlyPage.firstEachMonth') }}</p>
+                <p class="text-white">{{ $t('monthlyPage.solverRole') }} <a :href="discordUrl" target="_blank">{{ $t('home.discordServer') }}</a>{{ $t('monthlyPage.roleActiveOnly') }}</p>
               </div>
             </div>
 
             <div class="col-12 col-md-6">
               <div>
-                <h4 class="text-primary mb-1 text-center">Regler</h4>
-                <p class="text-white">För att vara behörig till pris behöver lösaren vara i grund eller gymnasieålder.</p>
-                <p class="test-white">Det går inte att vinna mer än ett pris under samma månad.</p>
-                <p class="text-white">Vill du vara med och skapa nästa månadens utmaning? Kontakta då Allan (<a :href="monthlyOrg" target="_blank">@alanoo079</a> på Discord) så kokar vi ihop något roligt!</p>
+                <h4 class="text-primary mb-1 text-center">{{ $t('common.rules') }}</h4>
+                <p class="text-white">{{ $t('monthlyPage.eligible') }}</p>
+                <p class="test-white">{{ $t('monthlyPage.onlyOnePrize') }}</p>
+                <p class="text-white">{{ $t('monthlyPage.wantToCreate') }}<a :href="monthlyOrg" target="_blank">@alanoo079</a> {{ $t('monthlyPage.onDiscordCook') }}</p>
               </div>
             </div>
           </div>
@@ -46,7 +45,7 @@
 
         <div v-if="monthly.status.value == 'success'">
         <h1 id="manadens-utmaning" class="text-primary">
-          Månadens utmaning - {{ monthly.data.value.display_month }}
+          {{ $t('monthlyPage.currentMonthly') }} - {{ monthly.data.value.display_month }}
         </h1>
         <div class="col pt-4 pt-md-0 mb-5">
           <MonthlyChallenge :chall="monthly.data.value.challenge" />
@@ -54,8 +53,8 @@
       </div>
 
       <section v-if="tankSakert" class="mc-panel mb-5">
-        <h2 class="text-primary">Vilka är vi?</h2>
-        <p>Säkerhets-SM är Sveriges hackingtävling för unga, och en del av en större rörelse för unga som gillar problemlösning.</p>
+        <h2 class="text-primary">{{ $t('monthlyPage.whoAreWe') }}</h2>
+        <p>{{ $t('monthlyPage.whoAreWeText') }}</p>
         <div class="row g-4">
           <div class="col-12 col-md-6">
             <a class="tank-sakert__org" href="https://www.kodsport.se/" target="_blank">
@@ -78,7 +77,7 @@
         </div>
       </section>
 
-      <h1 class="text-primary">Förra månaders utmaningar</h1>
+      <h1 class="text-primary">{{ $t('monthlyPage.previousMonthly') }}</h1>
       <div
         v-for="prev_monthly in prev_monthlies.data.value
           .filter((e) => monthly?.data?.value?.challenge_id !== e.challenge_id)

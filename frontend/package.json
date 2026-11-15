@@ -25,7 +25,8 @@
     "js-md5": "^0.7.3",
     "marked": "^6.0.0",
     "moment": "^2.29.4",
-    "pinia": "^2.1.6"
+    "pinia": "^2.1.6",
+    "vue-i18n": "11"
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }

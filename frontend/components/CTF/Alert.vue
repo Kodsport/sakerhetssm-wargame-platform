@@ -19,8 +19,10 @@
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useCTFStore } from "~/store/ctf";
 import moment from "moment";
+import { useI18n } from "vue-i18n";
 
 const ctfStore = useCTFStore();
+const { t } = useI18n();
 
 const now = ref(Date.now());
 let timer: any = null;
@@ -59,15 +61,15 @@ const beforeFreeze = computed(() => {
 const text = computed(() => {
   if (hasNotStarted.value)
     return (
-      "CTF:en har inte börjat ännu! Den börjar " +
+      t("ctf.notStarted") + " " +
       moment(new Date(ctfStore.ctf.start_time)).format("YYYY-MM-DD HH:mm:ss") +
       "."
     );
-  if (hasEnded.value) return "CTF:en har avslutats!";
+  if (hasEnded.value) return t("common.finished") + "!";
   
   if (isFrozen.value) {
     return (
-      "Poängtavlan är fryst! Lösningar räknas fortfarande men visas inte förrän " +
+      t("ctf.frozen") + " " +
       moment(new Date(ctfStore.ctf.scoreboard_freeze_end)).format("YYYY-MM-DD HH:mm:ss") +
       "."
     );
@@ -75,7 +77,7 @@ const text = computed(() => {
   
   if (beforeFreeze.value && ctfStore.ctf.scoreboard_freeze_start) {
     return (
-      "Poängtavlan kommer att frysas " +
+      t("ctf.willFreeze") + " " +
       moment(new Date(ctfStore.ctf.scoreboard_freeze_start)).format("YYYY-MM-DD HH:mm:ss") +
       "."
     );

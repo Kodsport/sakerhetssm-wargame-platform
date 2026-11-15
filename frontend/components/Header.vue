@@ -1,6 +1,6 @@
 <template>
   <header class="d-flex d-md-none px-3 py-4 justify-content-center">
-    <nuxt-link to="/" aria-label="Säkerhets-SM, startsidan">
+    <nuxt-link to="/" :aria-label="$t('nav.homeAria')">
       <PixelText text="Säkerhets-SM" :scale="3" balanced />
     </nuxt-link>
   </header>
@@ -18,7 +18,7 @@
         :class="{ show: toggleCollapse }"
         id="navbarSupportedContent"
       >
-        <nuxt-link class="navbar-brand d-none d-md-inline-flex align-items-center" to="/" aria-label="Säkerhets-SM, startsidan">
+        <nuxt-link class="navbar-brand d-none d-md-inline-flex align-items-center" to="/" :aria-label="$t('nav.homeAria')">
           <PixelText text="SSM" :scale="2" fit balanced />
         </nuxt-link>
         <ul class="navbar-nav me-auto">
@@ -30,7 +30,7 @@
               aria-expanded="false"
               data-toggle="dropdown"
             >
-              Problemarkiv
+              {{ $t('nav.problemArchive') }}
             </nuxt-link>
             <ul class="dropdown-menu">
               <li>
@@ -39,7 +39,7 @@
                   class="text-primary dropdown-item"
                   active-class="active-drop-down-el"
                 >
-                  Utmaningar
+                  {{ $t('nav.challenges') }}
                 </nuxt-link>
               </li>
               <li>
@@ -48,7 +48,7 @@
                   class="text-primary dropdown-item"
                   active-class="active-drop-down-el"
                 >
-                  Poängtavla
+                  {{ $t('nav.scoreboard') }}
                 </nuxt-link>
               </li>
               <li>
@@ -57,14 +57,14 @@
                   class="text-primary dropdown-item"
                   active-class="active-drop-down-el"
                 >
-                  Månadens utmaning
+                  {{ $t('nav.monthly') }}
                 </nuxt-link>
               </li>
             </ul>
           </li>
           <li class="nav-item">
             <nuxt-link active-class="active" class="nav-link" to="/learn">
-              Läroresurser
+              {{ $t('nav.learn') }}
             </nuxt-link>
           </li>
           <li class="nav-item dropdown hover-drop-down">
@@ -75,7 +75,7 @@
               aria-expanded="false"
               data-toggle="dropdown"
             >
-              Tidigare år
+              {{ $t('nav.previousYears') }}
             </a>
             <ul class="dropdown-menu">
               <li>
@@ -152,12 +152,12 @@
           </li>
           <li class="nav-item">
             <nuxt-link active-class="active" class="nav-link" to="/for-teachers">
-              För lärare
+              {{ $t('nav.forTeachers') }}
             </nuxt-link>
           </li>
           <li class="nav-item">
             <nuxt-link active-class="active" class="nav-link" to="/about">
-              Om oss
+              {{ $t('nav.about') }}
             </nuxt-link>
           </li>
         </ul>
@@ -274,14 +274,14 @@
               class="btn btn-primary"
               @click="login"
             >
-              Logga in
+              {{ $t('nav.login') }}
             </button>
             <button v-else class="btn btn-primary" @click="logout">
-              Logga ut
+              {{ $t('nav.logout') }}
             </button>
           </template>
           <template #fallback class="d-inline">
-            <button class="btn btn-primary">Logga in</button>
+            <button class="btn btn-primary">{{ $t('nav.login') }}</button>
           </template>
         </client-only>
       </div>

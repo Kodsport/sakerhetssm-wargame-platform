@@ -1,7 +1,7 @@
 <template>
   <div class="form-group flag-input">
     <template v-if="props.solved">
-      <InputReplacer text="Löst!" />
+      <InputReplacer :text="$t('common.solved')" />
     </template>
     <template v-else>
       <input
@@ -12,7 +12,7 @@
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
       />
-      <InputReplacer v-else text="Logga in för att skicka in flaggor!" />
+      <InputReplacer :text="$t('common.loginToSubmit')" />
     </template>
   </div>
 </template>
