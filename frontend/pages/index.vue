@@ -96,9 +96,14 @@
       <div class="col-12">
         <div class="mc-panel text-center">
           <h3>{{ $t('home.inCollabWith') }}</h3>
-          <a href="https://www.fra.se/" class="d-inline-block my-4">
-            <img class="img-fluid ssm-partner" src="~/assets/fra.png" alt="FRA - Försvarets Radioanstalt" />
-          </a>
+          <div class="ssm-partners my-4">
+            <a href="https://www.fra.se/">
+              <img class="ssm-partner" src="~/assets/fra.png" alt="FRA - Försvarets Radioanstalt" />
+            </a>
+            <a href="https://www.fro.se/">
+              <img class="ssm-partner" src="~/assets/fro.png" alt="FRO - Frivilliga Radioorganisationen" />
+            </a>
+          </div>
           <p class="mb-0">
             {{ $t('home.infraSponsored') }}
             <a href="https://glesys.com/">GleSYS</a>
@@ -217,8 +222,20 @@ onMounted(() => {
   color: #fff;
 }
 
+.ssm-partners {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem 3rem;
+}
+
 .ssm-partner {
-  max-width: min(22rem, 100%);
+  display: block;
+  height: 13.33rem;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 @media (max-width: 991.98px) {
