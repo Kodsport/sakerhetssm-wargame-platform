@@ -103,6 +103,9 @@
             <a href="https://www.fro.se/">
               <img class="ssm-partner" src="~/assets/fro.png" alt="FRO - Frivilliga Radioorganisationen" />
             </a>
+            <a href="https://www.forsvarsmakten.se/">
+              <img class="ssm-partner" src="~/assets/forsvarsmakten.png" alt="Försvarsmakten" />
+            </a>
           </div>
           <p class="mb-0">
             {{ $t('home.infraSponsored') }}
